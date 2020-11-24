@@ -1,0 +1,35 @@
+//@ts-check
+import HttpServices from './HttpServices';
+import CONSTANTS from '../util/constants';
+
+const getWorker = (body) => {
+    return new Promise((resolve, reject) => {
+        (new HttpServices()).setUrl(`${CONSTANTS.API}${CONSTANTS.URL_APIS.ASSIGNMENT}?limit=${body.limit}&offset=${body.offset}&userId=${body.userId}`)
+            .success(response => {
+                resolve(response);
+            })
+            .error(error => {
+                reject(error);
+            })
+            .get()
+    });
+}
+
+const getCategory = (body) => {
+    return new Promise((resolve, reject) => {
+        (new HttpServices()).setUrl(`${CONSTANTS.API}${CONSTANTS.URL_APIS.CATEGORY}`)
+            .success(response => {
+                resolve(response);
+            })
+            .error(error => {
+                reject(error);
+            })
+            .get()
+    });
+}
+
+
+export default {
+    getWorker,
+    getCategory
+}
