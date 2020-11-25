@@ -1,4 +1,5 @@
 const API = 'http://localhost:8080';
+const API = 'http://localhost:8080';
 const API_HOST = `${API}/api`;
 const S3_BUCKET = ``;
 

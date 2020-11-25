@@ -24,6 +24,7 @@
                 <input
                   class="input is-large"
                   type="text"
+                  v-model="searchText"
                   placeholder="Escriba DNI, Nombre o Apellidos"
                 />
               </p>
@@ -265,6 +266,7 @@
 
 <script>
 import AppLayout from "@/components/app-layout.vue";
+import ownerServices from '@/services/ownerServices';
 
 export default {
   name: "shopping",
@@ -272,25 +274,18 @@ export default {
     AppLayout,
   },
   created() {
-    this.$store.dispatch('loadWorkersData');
-    this.$store.dispatch('loadCategoryData');
+    this.fecthData();
   },
   computed: {
-    fake: function () {
-      const data = this.$store.data;
-      // document.title = `${company.name}`
-      return data;
-    },
-    categoryList: function () {
-      const data = this.$store.category;
-      // document.title = `${company.name}`
-      return data;
-    },
+
   },
   data() {
     return {
       selectedList: [],
+      searchText: '',
       stateRegisterModal: false,
+      fake: [],
+      categoryList: [],
       // fake: [
       //   {
       //     userId: 3,
@@ -407,6 +402,35 @@ export default {
     };
   },
   methods: {
+    fecthData (){
+       ownerServices.getWorker({
+        limit: 20,
+        offset: 0,
+        userId: 1
+      }).then(response => {
+        this.fake = response
+      }).catch(error => {
+        throw new Error(`API ${error}`);
+      });
+
+      ownerServices.getCategory().then(response => {
+        this.categoryList = response
+      }).catch(error => {
+        throw new Error(`API ${error}`);
+      });
+    },
+    searchWorker(){
+      ownerServices.getWorker({
+        limit: 20,
+        offset: 0,
+        userId: 1,
+        name: this.searchText
+      }).then(response => {
+        this.fake = response
+      }).catch(error => {
+        throw new Error(`API ${error}`);
+      });
+    },
     selectOption(element) {
       const dataTemp = [...this.fake];
       this.fake = dataTemp.map((item) => ({
