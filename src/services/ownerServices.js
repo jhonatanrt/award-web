@@ -28,8 +28,23 @@ const getCategory = (body) => {
     });
 }
 
+const saveAward = (body) => {
+    return new Promise((resolve, reject) => {
+        (new HttpServices()).setUrl(`${CONSTANTS.API}${CONSTANTS.URL_APIS.CATEGORY}`)
+            .setBody(body)
+            .success(response => {
+                resolve(response);
+            })
+            .error(error => {
+                reject(error);
+            })
+            .post()
+    });
+}
+
 
 export default {
     getWorker,
-    getCategory
+    getCategory,
+    saveAward
 }

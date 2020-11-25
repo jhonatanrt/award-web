@@ -15,6 +15,10 @@
         </div>
       </div>
     </div>
+    <div class="notification is-link is-light" v-if="showNotification">
+      <button class="delete"></button>
+      Registro Exitoso
+    </div>
     <section class="section is-storyworlds has-background is-medium">
       <div class="container">
         <div class="columns">
@@ -187,7 +191,11 @@
         </div>
       </div>
     </nav>
-    <div class="modal" v-bind:class="{ 'is-active': stateRegisterModal }">
+    <div
+      class="modal"
+      v-bind:class="{ 'is-active': stateRegisterModal }"
+      v-if="stateRegisterModal"
+    >
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
@@ -198,66 +206,119 @@
             @click="showRegisterModal"
           ></button>
         </header>
-        <section class="modal-card-body">
-          <fieldset v-for="(element, index) in selectedList" :key="index">
-            <div class="field is-horizontal">
-              <div class="field-label is-normal">
-                <label class="label">Trabajador</label>
-              </div>
-              <div class="field-body">
-                <div class="field">
-                  <div class="control">
-                    <input
-                      class="input"
-                      type="text"
-                      placeholder="e.g. Partnership opportunity"
-                      v-bind:value="`${element.name} ${element.lastName}`"
-                      disabled
-                    />
-                  </div>
+        <form @submit.prevent="handleSubmit">
+          <section class="modal-card-body">
+            <fieldset v-for="(element, index) in selectedList" :key="index">
+              <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                  <label class="label">Trabajador</label>
                 </div>
-              </div>
-            </div>
-            <div class="field is-horizontal">
-              <div class="field-label is-normal">
-                <label class="label">Comentarios</label>
-              </div>
-              <div class="field-body">
-                <div class="field">
-                  <div class="control">
-                    <textarea
-                      class="textarea"
-                      placeholder="Detalles de comentarios"
-                    ></textarea>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <hr />
-          </fieldset>
-          <fieldset>
-            <div class="field is-horizontal">
-              <div class="field-label is-normal">
-                <label class="label">Categoría</label>
-              </div>
-              <div class="field-body">
-                <div class="field is-narrow">
-                  <div class="control is-expanded">
-                    <div class="select is-fullwidth">
-                      <select>
-                        <option v-for="(item, index) in categoryList" :key="index" v-bind:value="item.categoryId">{{item.name}}</option>
-                      </select>
+                <div class="field-body">
+                  <div class="field">
+                    <div class="control">
+                      <input
+                        class="input"
+                        type="text"
+                        placeholder="e.g. Partnership opportunity"
+                        v-model="awardForm.data[index].name"
+                        disabled
+                      />
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </fieldset>
-        </section>
-        <footer class="modal-card-foot">
-          <button class="button is-link" @click="registerAward">APROBAR</button>
-          <button class="button" @click="showRegisterModal">CANCELAR</button>
-        </footer>
+              <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                  <label class="label">Comentarios</label>
+                </div>
+                <div class="field-body">
+                  <div class="field">
+                    <div class="control">
+                      <textarea
+                        class="textarea"
+                        placeholder="Detalles de comentarios"
+                        v-model="awardForm.data[index].comment"
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr />
+            </fieldset>
+            <fieldset>
+              <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                  <label class="label">Categoría</label>
+                </div>
+                <div class="field-body">
+                  <div class="field is-narrow">
+                    <div class="control is-expanded">
+                      <div class="select is-fullwidth">
+                        <select v-model="awardForm.idCategory">
+                          <option
+                            v-for="(item, index) in categoryList"
+                            :key="index"
+                            v-bind:value="item.categoryId"
+                          >
+                            {{ item.name }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                  <label class="label">Mes</label>
+                </div>
+                <div class="field-body">
+                  <div class="field is-narrow">
+                    <div class="control is-expanded">
+                      <div class="select is-fullwidth">
+                        <select v-model="awardForm.idMonth">
+                          <option
+                            v-for="(item, index) in monthList"
+                            :key="index"
+                            v-bind:value="item.name"
+                          >
+                            {{ item.name }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                  <label class="label">Año</label>
+                </div>
+                <div class="field-body">
+                  <div class="field is-narrow">
+                    <div class="control is-expanded">
+                      <div class="select is-fullwidth">
+                        <select v-model="awardForm.idYear">
+                          <option
+                            v-for="(item, index) in yearList"
+                            :key="index"
+                            v-bind:value="item.name"
+                          >
+                            {{ item.name }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </section>
+          <footer class="modal-card-foot">
+            <button class="button is-link">APROBAR</button>
+            <button class="button" @click="showRegisterModal">CANCELAR</button>
+          </footer>
+        </form>
       </div>
     </div>
   </AppLayout>
@@ -266,7 +327,8 @@
 
 <script>
 import AppLayout from "@/components/app-layout.vue";
-import ownerServices from '@/services/ownerServices';
+import ownerServices from "@/services/ownerServices";
+import helpers from "@/util/helpers";
 
 export default {
   name: "shopping",
@@ -276,13 +338,22 @@ export default {
   created() {
     this.fecthData();
   },
-  computed: {
-
-  },
+  computed: {},
   data() {
+    const yearList = helpers.generateArrayOfYears();
+    const monthList = helpers.generateMonths();
+
     return {
+      awardForm: {
+        idCategory: 1,
+        idMonth: monthList.find((item) => item.active).name,
+        idYear: yearList.find((item) => item.active).name,
+        data: [],
+      },
       selectedList: [],
-      searchText: '',
+      yearList,
+      monthList,
+      searchText: "",
       stateRegisterModal: false,
       fake: [],
       categoryList: [],
@@ -402,34 +473,43 @@ export default {
     };
   },
   methods: {
-    fecthData (){
-       ownerServices.getWorker({
-        limit: 20,
-        offset: 0,
-        userId: 1
-      }).then(response => {
-        this.fake = response
-      }).catch(error => {
-        throw new Error(`API ${error}`);
-      });
+    fecthData() {
+      ownerServices
+        .getWorker({
+          limit: 20,
+          offset: 0,
+          userId: 1,
+        })
+        .then((response) => {
+          this.fake = response;
+        })
+        .catch((error) => {
+          throw new Error(`API ${error}`);
+        });
 
-      ownerServices.getCategory().then(response => {
-        this.categoryList = response
-      }).catch(error => {
-        throw new Error(`API ${error}`);
-      });
+      ownerServices
+        .getCategory()
+        .then((response) => {
+          this.categoryList = response;
+        })
+        .catch((error) => {
+          throw new Error(`API ${error}`);
+        });
     },
-    searchWorker(){
-      ownerServices.getWorker({
-        limit: 20,
-        offset: 0,
-        userId: 1,
-        name: this.searchText
-      }).then(response => {
-        this.fake = response
-      }).catch(error => {
-        throw new Error(`API ${error}`);
-      });
+    searchWorker() {
+      ownerServices
+        .getWorker({
+          limit: 20,
+          offset: 0,
+          userId: 1,
+          name: this.searchText,
+        })
+        .then((response) => {
+          this.fake = response;
+        })
+        .catch((error) => {
+          throw new Error(`API ${error}`);
+        });
     },
     selectOption(element) {
       const dataTemp = [...this.fake];
@@ -449,15 +529,54 @@ export default {
       if (detailShow.length > 0) this.availableButton = true;
     },
     showRegisterModal() {
-      this.stateRegisterModal = !this.stateRegisterModal;
+      this.awardForm.data = this.selectedList.map((item) => ({
+        name: `${item.name} ${item.lastName}`,
+        comment: "",
+        userId: item.userId,
+      }));
+
+      this.stateRegisterModal = true;
     },
     registerAward() {
       this.stateRegisterModal = !this.stateRegisterModal;
       const dataTemp = [...this.fake];
-      this.fake = dataTemp.map((item) => ({...item, active: false}))
+      this.fake = dataTemp.map((item) => ({ ...item, active: false }));
       this.selectedList = [];
       this.selectedNumber = 0;
       this.availableButton = false;
+    },
+    handleSubmit(e) {
+      this.submitted = true;
+      this.$validator.validate().then((valid) => {
+        if (valid) {
+          const {idCategory, idMonth, idYear, data} = this.awardForm;
+          const request = {
+            categoryId: idCategory,
+            month: idMonth,
+            year: idYear,
+            userId: 1,
+            usersSelected: data.map(item => ({ userId: item.userId, comentary: item.comment}))
+          };
+
+          ownerServices
+            .saveAward(request)
+            .then((response) => {
+              this.stateRegisterModal = !this.stateRegisterModal;
+              const dataTemp = [...this.fake];
+              this.fake = dataTemp.map((item) => ({ ...item, active: false }));
+              this.selectedList = [];
+              this.selectedNumber = 0;
+              this.availableButton = false;
+              this.showNotification = true;
+              setTimeout(() => {
+                this.showNotification = false
+              }, 2000);
+            })
+            .catch((error) => {
+              throw new Error(`API ${error}`);
+            });
+        }
+      });
     },
   },
 };
