@@ -8,7 +8,7 @@ export default {
     URL_APIS: {
         CATEGORY: '/award/category',
         ASSIGNMENT: '/award/user/assignment',
-        ASSIGNMENT: '/award/save',
+        SAVE: '/award/save',
     },
     SPONSOR: [
         S3_BUCKET + '/banner-petpals.png',

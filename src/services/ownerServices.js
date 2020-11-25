@@ -30,7 +30,7 @@ const getCategory = (body) => {
 
 const saveAward = (body) => {
     return new Promise((resolve, reject) => {
-        (new HttpServices()).setUrl(`${CONSTANTS.API}${CONSTANTS.URL_APIS.CATEGORY}`)
+        (new HttpServices()).setUrl(`${CONSTANTS.API}${CONSTANTS.URL_APIS.SAVE}`)
             .setBody(body)
             .success(response => {
                 resolve(response);
