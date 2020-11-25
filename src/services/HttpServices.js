@@ -70,8 +70,8 @@ export default class HttpService {
     const token = localStorage.getItem('token');
     const auth = (token ? `Basic ${token}` : undefined);
     const headers = {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
+      'Accept': 'application/json,application/stream+json',
+      'Content-Type': 'application/json,application/stream+json',
       ...(
         auth ? { 'Authorization': auth } : {}
       )
