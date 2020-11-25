@@ -4,7 +4,7 @@ import CONSTANTS from '../util/constants';
 
 const getWorker = (body) => {
     return new Promise((resolve, reject) => {
-        (new HttpServices()).setUrl(`${CONSTANTS.API}${CONSTANTS.URL_APIS.ASSIGNMENT}?limit=${body.limit}&offset=${body.offset}&userId=${body.userId}`)
+        (new HttpServices()).setUrl(`${CONSTANTS.API}${CONSTANTS.URL_APIS.ASSIGNMENT}?limit=${body.limit}&offset=${body.offset}&userId=${body.userId}${body.name ? '&name=' + body.name : ''}`)
             .success(response => {
                 resolve(response);
             })
