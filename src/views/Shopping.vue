@@ -208,43 +208,45 @@
         </header>
         <form @submit.prevent="handleSubmit">
           <section class="modal-card-body">
-            <fieldset v-for="(element, index) in selectedList" :key="index">
-              <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                  <label class="label">Trabajador</label>
-                </div>
-                <div class="field-body">
-                  <div class="field">
-                    <div class="control">
-                      <input
-                        class="input"
-                        type="text"
-                        placeholder="e.g. Partnership opportunity"
-                        v-model="awardForm.data[index].name"
-                        disabled
-                      />
+            <div class="field-form">
+              <fieldset v-for="(element, index) in selectedList" :key="index">
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal">
+                    <label class="label">Trabajador</label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field">
+                      <div class="control">
+                        <input
+                          class="input"
+                          type="text"
+                          placeholder="e.g. Partnership opportunity"
+                          v-model="awardForm.data[index].name"
+                          disabled
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                  <label class="label">Comentarios</label>
-                </div>
-                <div class="field-body">
-                  <div class="field">
-                    <div class="control">
-                      <textarea
-                        class="textarea"
-                        placeholder="Detalles de comentarios"
-                        v-model="awardForm.data[index].comment"
-                      ></textarea>
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal">
+                    <label class="label">Comentarios</label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field">
+                      <div class="control">
+                        <textarea
+                          class="textarea"
+                          placeholder="Detalles de comentarios"
+                          v-model="awardForm.data[index].comment"
+                        ></textarea>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <hr />
-            </fieldset>
+                <hr />
+              </fieldset>
+            </div>
             <fieldset>
               <div class="field is-horizontal">
                 <div class="field-label is-normal">
@@ -315,8 +317,8 @@
             </fieldset>
           </section>
           <footer class="modal-card-foot">
-            <button class="button is-link">APROBAR</button>
-            <button class="button" @click="showRegisterModal">CANCELAR</button>
+            <button class="button is-link" type="submit">APROBAR</button>
+            <button class="button" @click="hideRegisterModal">CANCELAR</button>
           </footer>
         </form>
       </div>
@@ -355,6 +357,7 @@ export default {
       monthList,
       searchText: "",
       stateRegisterModal: false,
+      // stateRegisterModal: false,
       fake: [],
       categoryList: [],
       // fake: [
@@ -528,6 +531,10 @@ export default {
       this.selectedNumber = detailShow.length;
       if (detailShow.length > 0) this.availableButton = true;
     },
+    hideRegisterModal() {
+      this.stateRegisterModal = false;
+
+    },
     showRegisterModal() {
       this.awardForm.data = this.selectedList.map((item) => ({
         name: `${item.name} ${item.lastName}`,
@@ -582,6 +589,10 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.field-form{
+  max-height: 22rem;
+  overflow-y: scroll; 
+}
 .is-spaced {
   margin-right: 15px;
 }
