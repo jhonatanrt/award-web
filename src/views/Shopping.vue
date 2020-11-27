@@ -203,7 +203,7 @@
           <button
             class="delete"
             aria-label="close"
-            @click="showRegisterModal"
+            @click="hideRegisterModal"
           ></button>
         </header>
         <form @submit.prevent="handleSubmit">
