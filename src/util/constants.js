@@ -1,4 +1,4 @@
-const API = 'http://localhost:8080';
+const API = 'http://api-award.us-east-2.elasticbeanstalk.com';
 const API_HOST = `${API}/api`;
 const S3_BUCKET = ``;
 

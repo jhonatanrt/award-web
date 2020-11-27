@@ -33,7 +33,7 @@
                 />
               </p>
               <p class="control">
-                <a class="button is-link is-large"> Buscar Trabajador </a>
+                <a class="button is-link is-large" @click="searchWorker">Buscar Trabajador </a>
               </p>
             </div>
           </div>
@@ -167,7 +167,7 @@
               :key="index"
             >
               {{ element.name }} {{ element.lastName }}
-              <button class="delete"></button>
+              <button class="delete" @click="selectOption(element)"></button>
             </span>
           </a>
         </div>
@@ -357,122 +357,11 @@ export default {
       monthList,
       searchText: "",
       stateRegisterModal: false,
-      // stateRegisterModal: false,
       fake: [],
       categoryList: [],
-      // fake: [
-      //   {
-      //     userId: 3,
-      //     documentType: "DNI",
-      //     document: "88888888",
-      //     name: "Jhonny",
-      //     lastName: "Tanta",
-      //     birthDate: "1991-11-26",
-      //     address: "calle sueore viva",
-      //     photoUrl:
-      //       "https://scontent.flim19-1.fna.fbcdn.net/v/t1.0-1/p200x200/22228337_10210098810966063_5576753613056883978_n.jpg?_nc_cat=106&ccb=2&_nc_sid=7206a8&_nc_eui2=AeGuNW8frFqop6iVCUJI2pZhC_I7NLS-dZQL8js0tL51lD-t1LD0KWCQJBsKgSjefKE&_nc_ohc=kA5cr6yXnigAX8RkDv0&_nc_ht=scontent.flim19-1.fna&tp=6&oh=0fe9c767ca1481061accd3284db959fd&oe=5FDF8054",
-      //   },
-      //   {
-      //     userId: 4,
-      //     documentType: "DNI",
-      //     document: "33333333",
-      //     name: "Jhonny",
-      //     lastName: "Tanta",
-      //     birthDate: "1991-11-26",
-      //     address: "calle sueore viva",
-      //     photoUrl:
-      //       "https://scontent.flim19-1.fna.fbcdn.net/v/t1.0-1/p200x200/22228337_10210098810966063_5576753613056883978_n.jpg?_nc_cat=106&ccb=2&_nc_sid=7206a8&_nc_eui2=AeGuNW8frFqop6iVCUJI2pZhC_I7NLS-dZQL8js0tL51lD-t1LD0KWCQJBsKgSjefKE&_nc_ohc=kA5cr6yXnigAX8RkDv0&_nc_ht=scontent.flim19-1.fna&tp=6&oh=0fe9c767ca1481061accd3284db959fd&oe=5FDF8054",
-      //   },
-      //   {
-      //     userId: 5,
-      //     documentType: "DNI",
-      //     document: "55555555",
-      //     name: "Jhonny",
-      //     lastName: "Duro",
-      //     birthDate: "1991-11-26",
-      //     address: "calle sueore viva",
-      //     photoUrl:
-      //       "https://scontent.flim19-1.fna.fbcdn.net/v/t1.0-1/p200x200/22228337_10210098810966063_5576753613056883978_n.jpg?_nc_cat=106&ccb=2&_nc_sid=7206a8&_nc_eui2=AeGuNW8frFqop6iVCUJI2pZhC_I7NLS-dZQL8js0tL51lD-t1LD0KWCQJBsKgSjefKE&_nc_ohc=kA5cr6yXnigAX8RkDv0&_nc_ht=scontent.flim19-1.fna&tp=6&oh=0fe9c767ca1481061accd3284db959fd&oe=5FDF8054",
-      //   },
-      //   {
-      //     userId: 6,
-      //     documentType: "DNI",
-      //     document: "77777888",
-      //     name: "Jhonny",
-      //     lastName: "Duro",
-      //     birthDate: "1991-11-26",
-      //     address: "calle sueore viva",
-      //     photoUrl:
-      //       "https://scontent.flim19-1.fna.fbcdn.net/v/t1.0-1/p200x200/22228337_10210098810966063_5576753613056883978_n.jpg?_nc_cat=106&ccb=2&_nc_sid=7206a8&_nc_eui2=AeGuNW8frFqop6iVCUJI2pZhC_I7NLS-dZQL8js0tL51lD-t1LD0KWCQJBsKgSjefKE&_nc_ohc=kA5cr6yXnigAX8RkDv0&_nc_ht=scontent.flim19-1.fna&tp=6&oh=0fe9c767ca1481061accd3284db959fd&oe=5FDF8054",
-      //   },
-      //   {
-      //     userId: 7,
-      //     documentType: "DNI",
-      //     document: "77777888",
-      //     name: "Jhonny",
-      //     lastName: "Duro",
-      //     birthDate: "1991-11-26",
-      //     address: "calle sueore viva",
-      //     photoUrl:
-      //       "https://scontent.flim19-1.fna.fbcdn.net/v/t1.0-1/p200x200/22228337_10210098810966063_5576753613056883978_n.jpg?_nc_cat=106&ccb=2&_nc_sid=7206a8&_nc_eui2=AeGuNW8frFqop6iVCUJI2pZhC_I7NLS-dZQL8js0tL51lD-t1LD0KWCQJBsKgSjefKE&_nc_ohc=kA5cr6yXnigAX8RkDv0&_nc_ht=scontent.flim19-1.fna&tp=6&oh=0fe9c767ca1481061accd3284db959fd&oe=5FDF8054",
-      //   },
-      //   {
-      //     userId: 8,
-      //     documentType: "DNI",
-      //     document: "667777777",
-      //     name: "Jhonny",
-      //     lastName: "Duro",
-      //     birthDate: "1991-11-26",
-      //     address: "calle sueore viva",
-      //     photoUrl:
-      //       "https://scontent.flim19-1.fna.fbcdn.net/v/t1.0-1/p200x200/22228337_10210098810966063_5576753613056883978_n.jpg?_nc_cat=106&ccb=2&_nc_sid=7206a8&_nc_eui2=AeGuNW8frFqop6iVCUJI2pZhC_I7NLS-dZQL8js0tL51lD-t1LD0KWCQJBsKgSjefKE&_nc_ohc=kA5cr6yXnigAX8RkDv0&_nc_ht=scontent.flim19-1.fna&tp=6&oh=0fe9c767ca1481061accd3284db959fd&oe=5FDF8054",
-      //   },
-      //   {
-      //     userId: 9,
-      //     documentType: "DNI",
-      //     document: "988888888",
-      //     name: "Jhonny",
-      //     lastName: "Duro",
-      //     birthDate: "1991-11-26",
-      //     address: "calle sueore viva",
-      //     photoUrl:
-      //       "https://scontent.flim19-1.fna.fbcdn.net/v/t1.0-1/p200x200/22228337_10210098810966063_5576753613056883978_n.jpg?_nc_cat=106&ccb=2&_nc_sid=7206a8&_nc_eui2=AeGuNW8frFqop6iVCUJI2pZhC_I7NLS-dZQL8js0tL51lD-t1LD0KWCQJBsKgSjefKE&_nc_ohc=kA5cr6yXnigAX8RkDv0&_nc_ht=scontent.flim19-1.fna&tp=6&oh=0fe9c767ca1481061accd3284db959fd&oe=5FDF8054",
-      //   },
-      //   {
-      //     userId: 10,
-      //     documentType: "DNI",
-      //     document: "55555666",
-      //     name: "Jhonny",
-      //     lastName: "Duro",
-      //     birthDate: "1991-11-26",
-      //     address: "calle sueore viva",
-      //     photoUrl:
-      //       "https://scontent.flim19-1.fna.fbcdn.net/v/t1.0-1/p200x200/22228337_10210098810966063_5576753613056883978_n.jpg?_nc_cat=106&ccb=2&_nc_sid=7206a8&_nc_eui2=AeGuNW8frFqop6iVCUJI2pZhC_I7NLS-dZQL8js0tL51lD-t1LD0KWCQJBsKgSjefKE&_nc_ohc=kA5cr6yXnigAX8RkDv0&_nc_ht=scontent.flim19-1.fna&tp=6&oh=0fe9c767ca1481061accd3284db959fd&oe=5FDF8054",
-      //   },
-      //   {
-      //     userId: 11,
-      //     documentType: "DNI",
-      //     document: "55555666",
-      //     name: "Jhonny6",
-      //     lastName: "Duro",
-      //     birthDate: "1991-11-26",
-      //     address: "calle sueore viva",
-      //     photoUrl:
-      //       "https://scontent.flim19-1.fna.fbcdn.net/v/t1.0-1/p200x200/22228337_10210098810966063_5576753613056883978_n.jpg?_nc_cat=106&ccb=2&_nc_sid=7206a8&_nc_eui2=AeGuNW8frFqop6iVCUJI2pZhC_I7NLS-dZQL8js0tL51lD-t1LD0KWCQJBsKgSjefKE&_nc_ohc=kA5cr6yXnigAX8RkDv0&_nc_ht=scontent.flim19-1.fna&tp=6&oh=0fe9c767ca1481061accd3284db959fd&oe=5FDF8054",
-      //   },
-      // ],
       availableButton: false,
       selectedNumber: 0,
-      // categoryList: [
-      //   {
-      //     categoryId: 1,
-      //     name: "Mejor Vendedor Del Mes",
-      //   },
-      //   {
-      //     categoryId: 2,
-      //     name: "Mejor Equipo Del Mes",
-      //   },
-      // ],
+      showNotification: false
     };
   },
   methods: {
@@ -529,11 +418,10 @@ export default {
       const detailShow = this.fake.filter((item) => item.active);
       this.selectedList = detailShow;
       this.selectedNumber = detailShow.length;
-      if (detailShow.length > 0) this.availableButton = true;
+      this.availableButton = (detailShow.length > 0)
     },
     hideRegisterModal() {
       this.stateRegisterModal = false;
-
     },
     showRegisterModal() {
       this.awardForm.data = this.selectedList.map((item) => ({
@@ -592,6 +480,7 @@ export default {
 .field-form{
   max-height: 22rem;
   overflow-y: scroll; 
+  margin-bottom: 40px;
 }
 .is-spaced {
   margin-right: 15px;
