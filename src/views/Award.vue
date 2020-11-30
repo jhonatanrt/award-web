@@ -5,11 +5,11 @@
         <div class="container">
           <div class="columns is-vcentered">
             <div class="column is-two-thirds">
-              <h1 class="title">Lista de trabajadores</h1>
-              <h2 class="subtitle">
+              <h1 class="title">Reconocimento de trabajadores</h1>
+              <!-- <h2 class="subtitle">
                 Seleccione a sus mejores trabajadores para reconocerlo o
                 premiarlo de acuerdo a su categoría.
-              </h2>
+              </h2> -->
             </div>
           </div>
         </div>
@@ -23,7 +23,60 @@
       <div class="container">
         <div class="columns">
           <div class="column is-12">
-            <div class="field is-grouped">
+            <div class="field is-horizontal">
+              <!-- <div class="field-label is-normal">
+                <label class="label">From</label>
+              </div> -->
+              <div class="field-body">
+                <div class="field">
+                  <p class="control is-expanded">
+                    <input
+                      class="input"
+                      type="text"
+                      v-model="searchText"
+                      v-on:keyup.enter="searchWorker"
+                      placeholder="Escriba DNI, Nombre o Apellidos"
+                    />
+                  </p>
+                </div>
+                <div class="field">
+                  <div class="control">
+                    <div class="select is-fullwidth">
+                      <select v-model="awardForm.idMonth">
+                          <option val="" disabled>Seleccione Mes</option>
+                          <option
+                            v-for="(item, index) in monthList"
+                            :key="index"
+                            v-bind:value="item.name"
+                          >
+                            {{ item.name }}
+                          </option>
+                        </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="control">
+                    <div class="select is-fullwidth">
+                        <select v-model="awardForm.idYear">
+                          <option val="" disabled>Seleccione Año</option>
+                          <option
+                            v-for="(item, index) in yearList"
+                            :key="index"
+                            v-bind:value="item.name"
+                          >
+                            {{ item.name }}
+                          </option>
+                        </select>
+                    </div>
+                  </div>
+                </div>
+                <a class="button is-link is-normal" @click="searchWorker"
+                  >Buscar Reconocimento
+                </a>
+              </div>
+            </div>
+            <!-- <div class="field is-grouped">
               <p class="control is-expanded">
                 <input
                   class="input is-large"
@@ -35,14 +88,14 @@
               </p>
               <p class="control">
                 <a class="button is-link is-large" @click="searchWorker"
-                  >Buscar Trabajador
+                  >Buscar Reconocimento
                 </a>
               </p>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="columns">
-          <div class="column is-3 is-2-widescreen">
+          <!-- <div class="column is-3 is-2-widescreen">
             <div class="menu">
               <p class="menu-label">Filtrar por área</p>
               <ul class="menu-list">
@@ -72,8 +125,8 @@
                 </li>
               </ul>
             </div>
-          </div>
-          <div class="column is-9 is-10-widescreen">
+          </div> -->
+          <div class="column is-12 is-12-widescreen">
             <div class="columns is-multiline" id="grid">
               <div
                 class="column is-6 is-4-widescreen is-flex"
@@ -125,11 +178,26 @@
               role="navigation"
               aria-label="pagination"
             >
-              <a class="pagination-previous" @click="nextPage(currentPage - 1)" v-if="currentPage !== 1">Anterior</a>
-              <a class="pagination-next" @click="nextPage(currentPage + 1)" v-if="currentPage !== pagesNumber && pagesNumber > 0">Siguiente</a>
+              <a
+                class="pagination-previous"
+                @click="nextPage(currentPage - 1)"
+                v-if="currentPage !== 1"
+                >Anterior</a
+              >
+              <a
+                class="pagination-next"
+                @click="nextPage(currentPage + 1)"
+                v-if="currentPage !== pagesNumber && pagesNumber > 0"
+                >Siguiente</a
+              >
               <ul class="pagination-list">
                 <li v-for="index in pagesNumber" :key="index">
-                  <a class="pagination-link" v-bind:class="{ 'is-current': index == currentPage }" @click="nextPage(index)">{{index}}</a>
+                  <a
+                    class="pagination-link"
+                    v-bind:class="{ 'is-current': index == currentPage }"
+                    @click="nextPage(index)"
+                    >{{ index }}</a
+                  >
                 </li>
                 <!-- <li>
                   <a class="pagination-link is-current" aria-label="Goto page 1"
@@ -377,7 +445,7 @@ export default {
       ownerServices
         .getWorker({
           limit: 10,
-          offset: 10*(pageNumber - 1),
+          offset: 10 * (pageNumber - 1),
           userId: 1,
         })
         .then(({ pages, users }) => {
@@ -420,7 +488,7 @@ export default {
           userId: 1,
           name: this.searchText,
         })
-        .then(({pages, users}) => {
+        .then(({ pages, users }) => {
           this.fake = users;
           this.pagesNumber = pages.totalPages;
         })
@@ -600,5 +668,4 @@ export default {
   content: "";
   padding-bottom: 63.80597%;
 }
-
 </style>

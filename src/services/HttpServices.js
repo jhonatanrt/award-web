@@ -42,7 +42,7 @@ export default class HttpService {
         auth ? { 'Authorization': auth } : {}
       )
     };
-    console.log('headers', headers)
+
     fetch(url, {
       method: 'POST',
       headers: headers,

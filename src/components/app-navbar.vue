@@ -29,7 +29,7 @@
             <div class="navbar-end">
               <a href="/" class="navbar-item is-active">Principal</a>
               <a href="/detalle" class="navbar-item">Premiación</a>
-              <a href="/library" class="navbar-item">Reconocimiento</a>
+              <a href="/reconocimiento" class="navbar-item">Reconocimiento</a>
               <a href="/blog" class="navbar-item">Somos</a>
               <!-- <div class="navbar-item">
                 <a

@@ -7,7 +7,7 @@ export default {
     API_HOST,
     URL_APIS: {
         CATEGORY: '/award/category',
-        ASSIGNMENT: '/award/user/assignment',
+        ASSIGNMENT: '/award/v2/user/assignment',
         SAVE: '/award/request/save',
     },
     SPONSOR: [
