@@ -1,15 +1,15 @@
 <template>
   <AppLayout>
+    <!-- <AppLoader v-bind:active="true"></AppLoader> -->
     <div class="hero is-primary is-bold">
       <div class="hero-body">
         <div class="container">
           <div class="columns is-vcentered">
             <div class="column is-two-thirds">
-              <h1 class="title">Reconocimento de trabajadores</h1>
-              <!-- <h2 class="subtitle">
-                Seleccione a sus mejores trabajadores para reconocerlo o
-                premiarlo de acuerdo a su categoría.
-              </h2> -->
+              <h1 class="title">Solicitudes de reconocimiento</h1>
+              <h2 class="subtitle">
+                Realice las aprobaciones o rechazo de las solicitudes.
+              </h2>
             </div>
           </div>
         </div>
@@ -19,7 +19,7 @@
       <button class="delete"></button>
       Registro Exitoso
     </div>
-    <section class="section is-storyworlds has-background is-medium">
+    <section class="section is-storyworlds has-background is-small">
       <div class="container">
         <div class="columns">
           <div class="column is-12">
@@ -28,7 +28,7 @@
                 <label class="label">From</label>
               </div> -->
               <div class="field-body">
-                <div class="field">
+                <!-- <div class="field">
                   <p class="control is-expanded">
                     <input
                       class="input"
@@ -38,364 +38,307 @@
                       placeholder="Escriba DNI, Nombre o Apellidos"
                     />
                   </p>
-                </div>
+                </div> -->
                 <div class="field">
+                  <label class="label">Mes</label>
                   <div class="control">
                     <div class="select is-fullwidth">
                       <select v-model="awardForm.idMonth">
-                          <option val="" disabled>Seleccione Mes</option>
-                          <option
-                            v-for="(item, index) in monthList"
-                            :key="index"
-                            v-bind:value="item.name"
-                          >
-                            {{ item.name }}
-                          </option>
-                        </select>
+                        <option val="" disabled>Seleccione Mes</option>
+                        <option
+                          v-for="(item, index) in monthList"
+                          :key="index"
+                          v-bind:value="item.name"
+                        >
+                          {{ item.name }}
+                        </option>
+                      </select>
                     </div>
                   </div>
                 </div>
                 <div class="field">
+                  <label class="label">Año</label>
                   <div class="control">
                     <div class="select is-fullwidth">
-                        <select v-model="awardForm.idYear">
-                          <option val="" disabled>Seleccione Año</option>
-                          <option
-                            v-for="(item, index) in yearList"
-                            :key="index"
-                            v-bind:value="item.name"
-                          >
-                            {{ item.name }}
-                          </option>
-                        </select>
+                      <select v-model="awardForm.idYear">
+                        <option val="" disabled>Seleccione Año</option>
+                        <option
+                          v-for="(item, index) in yearList"
+                          :key="index"
+                          v-bind:value="item.name"
+                        >
+                          {{ item.name }}
+                        </option>
+                      </select>
                     </div>
                   </div>
                 </div>
-                <a class="button is-link is-normal" @click="searchWorker"
-                  >Buscar Reconocimento
-                </a>
+                <div class="field">
+                  <label class="label">Estado</label>
+                  <div class="control">
+                    <div class="select is-fullwidth">
+                      <select v-model="awardForm.status">
+                        <option val="" disabled>Seleccione Estado</option>
+                        <option
+                          v-for="(item, index) in statusList"
+                          :key="index"
+                          v-bind:value="item.id"
+                        >
+                          {{ item.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="field is-grouped is-grouped-right btn__search">
+                  <a class="button is-link is-normal" @click="searchWorker"
+                    >Buscar Reconocimento
+                  </a>
+                </div>
               </div>
             </div>
-            <!-- <div class="field is-grouped">
-              <p class="control is-expanded">
-                <input
-                  class="input is-large"
-                  type="text"
-                  v-model="searchText"
-                  v-on:keyup.enter="searchWorker"
-                  placeholder="Escriba DNI, Nombre o Apellidos"
-                />
-              </p>
-              <p class="control">
-                <a class="button is-link is-large" @click="searchWorker"
-                  >Buscar Reconocimento
-                </a>
-              </p>
-            </div> -->
           </div>
         </div>
         <div class="columns">
-          <!-- <div class="column is-3 is-2-widescreen">
-            <div class="menu">
-              <p class="menu-label">Filtrar por área</p>
-              <ul class="menu-list">
-                <li>
-                  <a
-                    class="is-active"
-                    data-action="filter"
-                    data-group=""
-                    href="/library"
-                    >Todos</a
-                  >
-                </li>
-                <li>
-                  <a data-action="filter" data-group="2-4" href="/library/2-4"
-                    >Área N1</a
-                  >
-                </li>
-                <li>
-                  <a data-action="filter" data-group="4-6" href="/library/4-6"
-                    >Área N2</a
-                  >
-                </li>
-                <li>
-                  <a data-action="filter" data-group="6-9" href="/library/6-9"
-                    >Área N3</a
-                  >
-                </li>
-              </ul>
-            </div>
-          </div> -->
           <div class="column is-12 is-12-widescreen">
-            <div class="columns is-multiline" id="grid">
-              <div
-                class="column is-6 is-4-widescreen is-flex"
-                v-for="(element, index) in fake"
-                :key="index"
-              >
-                <div
-                  class="card is-storyworld"
-                  @click="selectOption(element)"
-                  v-bind:class="{ active: element.active }"
-                >
-                  <a class="card-header">
-                    <div
-                      class="card-image"
-                      v-bind:style="`background-image: url('${element.photoUrl}')`"
-                    ></div>
-                  </a>
-                  <div class="card-body">
-                    <a>
-                      <div class="card-title">
-                        {{ element.name }} {{ element.lastName }}
-                      </div>
-                    </a>
-                    <div class="card-meta">
-                      <!-- <i class="icon-user"></i>6-9 years -->
-                      <span>{{ element.documentType }} :</span>
-                      {{ element.document }}
+            <table class="table is-fullwidth is-hoverable table__space">
+              <thead>
+                <tr>
+                  <!-- <th style="width: 50px">
+                  </th> -->
+                  <th>Tipo de categoría</th>
+                  <th>Mes</th>
+                  <th>Año</th>
+                  <th>Nombre de solicitante</th>
+                  <th>Estado</th>
+                  <th>Información</th>
+                  <th>Presentación</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody v-if="fake.length > 0">
+                <tr v-for="(element, index) in fake" :key="index">
+                  <!-- <td style="width: 50px">
+                    <input type="checkbox" />
+                  </td> -->
+                  <td>
+                    <strong>{{ element.categoryName }}</strong>
+                  </td>
+                  <td>{{ element.month }}</td>
+                  <td>{{ element.year }}</td>
+                  <td>{{ element.nameRequest }}</td>
+                  <td>{{ getStatus(element.status) }}</td>
+                  <td>
+                    <div class="buttons">
+                      <button
+                        class="button is-info"
+                        @click="showInfoModal(element)"
+                      >
+                        Visualizar
+                      </button>
                     </div>
-                    <div class="card-meta">
-                      <!-- <i class="icon-user"></i>6-9 years -->
-                      <span>Cumpleaños :</span> {{ element.birthDate }}
+                  </td>
+                  <td>
+                    <div class="buttons" v-if="element.status === 1">
+                      <button
+                        class="button is-info"
+                        @click="showInfoModal(element)"
+                      >
+                        Ver
+                      </button>
                     </div>
-                    <!-- <div class="card-description">
-                      <p>
-                        Tate, a young boy on the autism spectrum, loves watching
-                        tops spin. One day, he realizes that watching them takes
-                        him into a different world.
-                      </p>
-                    </div> -->
-                  </div>
-                  <div class="card-footer">
-                    <a class="button is-primary is-outlined">Seleccionar</a>
-                  </div>
-                </div>
+                  </td>
+                  <td>
+                    <div class="buttons" v-if="element.status === 0">
+                      <button
+                        class="button is-success"
+                        @click="showActionModal(1, element)"
+                      >
+                        Aprobar
+                      </button>
+                      <button
+                        class="button is-danger"
+                        @click="showActionModal(2, element)"
+                      >
+                        Rechazar
+                      </button>
+                    </div>
+                    <div class="buttons" v-if="element.status !== 0">
+                      <button class="button is-warning" title="Disabled button" disabled>Sin Acciones</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+              <div v-if="fake.length === 0" class="table__empty">
+                <span>No hay registros</span>
               </div>
-            </div>
-            <nav
-              class="pagination is-right"
-              role="navigation"
-              aria-label="pagination"
-            >
-              <a
-                class="pagination-previous"
-                @click="nextPage(currentPage - 1)"
-                v-if="currentPage !== 1"
-                >Anterior</a
-              >
-              <a
-                class="pagination-next"
-                @click="nextPage(currentPage + 1)"
-                v-if="currentPage !== pagesNumber && pagesNumber > 0"
-                >Siguiente</a
-              >
-              <ul class="pagination-list">
-                <li v-for="index in pagesNumber" :key="index">
-                  <a
-                    class="pagination-link"
-                    v-bind:class="{ 'is-current': index == currentPage }"
-                    @click="nextPage(index)"
-                    >{{ index }}</a
-                  >
-                </li>
-                <!-- <li>
-                  <a class="pagination-link is-current" aria-label="Goto page 1"
-                    >1</a
-                  >
-                </li>
-                <li><span class="pagination-ellipsis">&hellip;</span></li>
-                <li>
-                  <a class="pagination-link" aria-label="Goto page 3">3</a>
-                </li>
-                <li>
-                  <a
-                    class="pagination-link"
-                    aria-label="Page 4"
-                    aria-current="page"
-                    >4</a
-                  >
-                </li>
-                <li>
-                  <a class="pagination-link" aria-label="Goto page 5">5</a>
-                </li>
-                <li><span class="pagination-ellipsis">&hellip;</span></li>
-                <li>
-                  <a class="pagination-link" aria-label="Goto page 8">8</a>
-                </li> -->
-              </ul>
-            </nav>
+            </table>
           </div>
         </div>
       </div>
     </section>
 
-    <nav class="navbar is-fixed-bottom navbar__option" v-if="availableButton">
-      <div id="navbarExampleTransparentExample" class="navbar-menu">
-        <div class="navbar-start">
-          <a class="navbar-item"> Trabajadores Seleccionados </a>
-          <a class="navbar-item">
-            <span
-              class="tag is-link is-light is-large is-spaced"
-              v-for="(element, index) in selectedList"
-              :key="index"
-            >
-              {{ element.name }} {{ element.lastName }}
-              <button class="delete" @click="selectOption(element)"></button>
-            </span>
-          </a>
-        </div>
-
-        <div class="navbar-end">
-          <div class="navbar-item">
-            <div class="field">
-              <p class="control">
-                <a
-                  class="button is-primary is-medium"
-                  @click="showRegisterModal"
-                >
-                  <span class="icon">
-                    <i class="far fa-check-circle"></i>
-                  </span>
-                  <span>APROBAR</span>
-                </a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
     <div
       class="modal"
-      v-bind:class="{ 'is-active': stateRegisterModal }"
-      v-if="stateRegisterModal"
+      v-bind:class="{ 'is-active': stateActionModal }"
+      v-if="stateActionModal"
     >
-      <div class="modal-background"></div>
-      <div class="modal-card">
-        <header class="modal-card-head">
-          <p class="modal-card-title">Registro de Premiación</p>
-          <button
-            class="delete"
-            aria-label="close"
-            @click="hideRegisterModal"
-          ></button>
-        </header>
-        <form @submit.prevent="handleSubmit">
-          <section class="modal-card-body">
-            <div class="field-form">
-              <fieldset v-for="(element, index) in selectedList" :key="index">
-                <div class="field is-horizontal">
-                  <div class="field-label is-normal">
-                    <label class="label">Trabajador</label>
-                  </div>
-                  <div class="field-body">
-                    <div class="field">
-                      <div class="control">
-                        <input
-                          class="input"
-                          type="text"
-                          placeholder="e.g. Partnership opportunity"
-                          v-model="awardForm.data[index].name"
-                          disabled
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="field is-horizontal">
-                  <div class="field-label is-normal">
-                    <label class="label">Comentarios</label>
-                  </div>
-                  <div class="field-body">
-                    <div class="field">
-                      <div class="control">
-                        <textarea
-                          class="textarea"
-                          placeholder="Detalles de comentarios"
-                          v-model="awardForm.data[index].comment"
-                        ></textarea>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <hr />
-              </fieldset>
+      <div class="modal-background" @click="hideActionModal()"></div>
+      <div class="modal-content">
+        <div class="box">
+          <article class="media">
+            <div class="media-content">
+              <div class="content modal--content">
+                <strong>Hola, {{ modal.userName }}</strong>
+                <p>
+                  ¿Está seguro que desea <strong>{{ modal.detail }}</strong> las
+                  solicitud(es)?
+                </p>
+              </div>
+              <div class="buttons is-right">
+                <button
+                  class="button is-success"
+                  @click="setAction(modal.statusType, modal.data)"
+                >
+                  Aceptar
+                </button>
+                <button class="button" @click="hideActionModal()">
+                  Cancelar
+                </button>
+              </div>
             </div>
-            <fieldset>
-              <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                  <label class="label">Categoría</label>
-                </div>
-                <div class="field-body">
-                  <div class="field is-narrow">
-                    <div class="control is-expanded">
-                      <div class="select is-fullwidth">
-                        <select v-model="awardForm.idCategory">
-                          <option
-                            v-for="(item, index) in categoryList"
-                            :key="index"
-                            v-bind:value="item.categoryId"
-                          >
-                            {{ item.name }}
-                          </option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                  <label class="label">Mes</label>
-                </div>
-                <div class="field-body">
-                  <div class="field is-narrow">
-                    <div class="control is-expanded">
-                      <div class="select is-fullwidth">
-                        <select v-model="awardForm.idMonth">
-                          <option
-                            v-for="(item, index) in monthList"
-                            :key="index"
-                            v-bind:value="item.name"
-                          >
-                            {{ item.name }}
-                          </option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                  <label class="label">Año</label>
-                </div>
-                <div class="field-body">
-                  <div class="field is-narrow">
-                    <div class="control is-expanded">
-                      <div class="select is-fullwidth">
-                        <select v-model="awardForm.idYear">
-                          <option
-                            v-for="(item, index) in yearList"
-                            :key="index"
-                            v-bind:value="item.name"
-                          >
-                            {{ item.name }}
-                          </option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-          </section>
-          <footer class="modal-card-foot">
-            <button class="button is-link" type="submit">APROBAR</button>
-            <button class="button" @click="hideRegisterModal">CANCELAR</button>
-          </footer>
-        </form>
+          </article>
+        </div>
       </div>
+      <button
+        class="modal-close is-large"
+        aria-label="close"
+        @click="hideActionModal()"
+      ></button>
+    </div>
+
+    <div
+      class="modal"
+      v-bind:class="{ 'is-active': stateInfoModal }"
+      v-if="stateInfoModal"
+    >
+      <div class="modal-background" @click="hideInfoModal()"></div>
+      <div class="modal-content">
+        <div class="box">
+          <article class="media">
+            <div class="media-content">
+              <div class="content modal--content">
+                <strong>Detalle de solicitud</strong>
+                <hr />
+                <fieldset disabled>
+                  <div class="field">
+                    <label class="label">Tipo Categoría</label>
+                    <div class="control">
+                      <input
+                        class="input"
+                        type="text"
+                        v-bind:value="modal.data.categoryName"
+                      />
+                    </div>
+                  </div>
+                  <div class="field is-grouped">
+                    <div class="control">
+                      <div class="field">
+                        <label class="label">Año</label>
+                        <div class="control">
+                          <input
+                            class="input"
+                            type="email"
+                            v-bind:value="modal.data.year"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="control">
+                      <div class="field">
+                        <label class="label">Mes</label>
+                        <div class="control">
+                          <input
+                            class="input"
+                            type="email"
+                            v-bind:value="modal.data.month"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label class="label">Responsable</label>
+                    <div class="control">
+                      <input
+                        class="input"
+                        type="email"
+                        v-bind:value="modal.data.nameRequest"
+                      />
+                    </div>
+                  </div>
+                  <label class="label">Lista de Trabajadores</label>
+                  <div class="field-form">
+                    <div
+                      v-for="(item, index) in modal.data.usersSelected"
+                      :key="index"
+                    >
+                      <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                          <label class="label">Nombre</label>
+                        </div>
+                        <div class="field-body">
+                          <div class="field">
+                            <div class="control">
+                              <input
+                                class="input"
+                                type="text"
+                                v-bind:value="item.userInfo.name"
+                                disabled
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                          <label class="label">Comentarios</label>
+                        </div>
+                        <div class="field-body">
+                          <div class="field">
+                            <div class="control">
+                              <textarea
+                                class="textarea"
+                                v-bind:value="item.comentary"
+                              ></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <hr />
+                    </div>
+                  </div>
+                </fieldset>
+                <div class="buttons is-right">
+                  <button class="button" @click="hideInfoModal()">
+                    Cerrar
+                  </button>
+                </div>
+              </div>
+              <!-- <div class="buttons is-right">
+                <button class="button is-success" @click="setAction(modal.statusType, modal.data)">Aceptar</button>
+                <button class="button" @click="hideActionModal()">Cancelar</button>
+              </div> -->
+            </div>
+          </article>
+        </div>
+      </div>
+      <button
+        class="modal-close is-large"
+        aria-label="close"
+        @click="hideInfoModal()"
+      ></button>
     </div>
   </AppLayout>
 </template>
@@ -403,11 +346,12 @@
 
 <script>
 import AppLayout from "@/components/app-layout.vue";
+import AppLoader from "@/components/app-loader.vue";
 import ownerServices from "@/services/ownerServices";
 import helpers from "@/util/helpers";
 
 export default {
-  name: "shopping",
+  name: "award",
   components: {
     AppLayout,
   },
@@ -421,17 +365,28 @@ export default {
 
     return {
       awardForm: {
-        idCategory: 1,
         idMonth: monthList.find((item) => item.active).name,
         idYear: yearList.find((item) => item.active).name,
+        data: [],
+        status: 0,
+      },
+      modal: {
+        detail: "",
+        userName: "Eli Tanta",
         data: [],
       },
       selectedList: [],
       yearList,
       monthList,
-      searchText: "",
-      stateRegisterModal: false,
+      stateActionModal: false,
+      stateInfoModal: false,
       fake: [],
+      statusList: [
+        { id: "", name: "Todos" },
+        { id: 0, name: "Pendiente" },
+        { id: 1, name: "Aprobado", actionName: "Aprobar" },
+        { id: 2, name: "Rechazado", actionName: "Rechazar" },
+      ],
       pagesNumber: 0,
       currentPage: 1,
       categoryList: [],
@@ -458,39 +413,30 @@ export default {
     },
     fecthData() {
       ownerServices
-        .getWorker({
-          limit: 10,
-          offset: 0,
-          userId: 1,
+        .getPendingRequest({
+          userId: 2,
         })
-        .then(({ pages, users }) => {
-          this.fake = users;
-          this.pagesNumber = pages.totalPages;
-        })
-        .catch((error) => {
-          throw new Error(`API ${error}`);
-        });
-
-      ownerServices
-        .getCategory()
         .then((response) => {
-          this.categoryList = response;
+          
+          this.fake = response;
         })
         .catch((error) => {
           throw new Error(`API ${error}`);
         });
     },
+    getStatus(statusType) {
+      const data = this.statusList.find((item) => item.id === statusType);
+      return data.name;
+    },
     searchWorker() {
       ownerServices
-        .getWorker({
-          limit: 10,
-          offset: 0,
-          userId: 1,
-          name: this.searchText,
+        .getPendingRequest({
+          userId: 2,
+          month: this.awardForm.idMonth,
+          year: this.awardForm.idYear,
         })
-        .then(({ pages, users }) => {
-          this.fake = users;
-          this.pagesNumber = pages.totalPages;
+        .then((response) => {
+          this.fake = response;
         })
         .catch((error) => {
           throw new Error(`API ${error}`);
@@ -513,8 +459,42 @@ export default {
       this.selectedNumber = detailShow.length;
       this.availableButton = detailShow.length > 0;
     },
+    hideActionModal() {
+      this.stateActionModal = false;
+    },
+    hideInfoModal() {
+      this.stateInfoModal = false;
+    },
     hideRegisterModal() {
       this.stateRegisterModal = false;
+    },
+    showActionModal(statusType, payload) {
+      this.stateActionModal = true;
+      const data = this.statusList.find((item) => item.id === statusType);
+      this.modal.detail = data.actionName;
+      this.modal.statusType = statusType;
+      this.modal.data = payload;
+    },
+    showInfoModal(payload) {
+      this.stateInfoModal = true;
+      this.modal.data = payload;
+    },
+    setAction(statusType, payload) {
+      ownerServices
+        .setRequestAction({
+          action: statusType,
+          data: [{ awardId: payload.awardId }],
+        })
+        .then((response) => {
+          console.log(response);
+          if(response.status){
+            this.hideActionModal()
+            this.searchWorker()
+          }
+        })
+        .catch((error) => {
+          throw new Error(`API ${error}`);
+        });
     },
     showRegisterModal() {
       this.awardForm.data = this.selectedList.map((item) => ({
@@ -573,10 +553,24 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.table__empty{
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+.modal--content {
+  p {
+    padding: 20px 0;
+  }
+}
+.btn__search {
+  align-items: flex-end;
+}
 .field-form {
   max-height: 22rem;
   overflow-y: scroll;
   margin-bottom: 40px;
+  padding-top: 25px;
 }
 .is-spaced {
   margin-right: 15px;
@@ -597,75 +591,36 @@ export default {
     #ae5fd2 100%
   );
 }
-.card.is-storyworld {
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  max-width: 360px;
-  background-color: white;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.05);
-  border-radius: 15px;
-  width: 100%;
-  overflow: hidden;
-  transition-duration: 172ms;
-  will-change: transform, box-shadow;
-
-  &.active {
-    border: 3px solid #5d2cb9;
+.table__space {
+  margin-top: 1.5rem;
+  th {
+    padding: 20px 10px 20px 15px;
+    color: white;
+    background-color: #3273dc;
+  }
+  td {
+    padding: 25px 10px 25px 15px;
   }
 }
-
-.card {
-  background-color: transparent;
-  box-shadow: none;
-  color: #998da0;
-  max-width: 100%;
-  position: relative;
-  cursor: pointer;
+table,
+tr td {
+  /* border: 1px solid red; */
 }
-.card.is-storyworld .card-header {
-  margin: 0;
-  overflow: hidden;
-  flex-direction: column;
-}
-.card-header {
-  background-color: none;
-  align-items: stretch;
-  box-shadow: none;
-  display: -ms-flexbox;
-  display: flex;
-}
-.card.is-storyworld .card-image {
-  border-radius: 10px 10px 0 0;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  transition-duration: 172ms;
-  will-change: transform;
-}
-
-.card-image {
+tbody {
   display: block;
-  position: relative;
+  height: 500px;
+  overflow: auto;
 }
-.card.is-storyworld .card-body {
-  flex: 1;
-  padding: 2rem 1.5rem;
+thead,
+tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
 }
-.card.is-storyworld .card-footer {
-  margin-top: -3rem;
-  padding: 2rem 1.5rem;
+thead {
+  /* width: calc(100% - 1em); */
 }
-.card-footer {
-  background-color: none;
-  border-top: none;
-  align-items: stretch;
-  display: -ms-flexbox;
-  display: flex;
-}
-.card.is-storyworld .card-image:before {
-  display: block;
-  content: "";
-  padding-bottom: 63.80597%;
+table {
+  width: 400px;
 }
 </style>

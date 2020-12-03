@@ -9,6 +9,9 @@ export default {
         CATEGORY: '/award/category',
         ASSIGNMENT: '/award/v2/user/assignment',
         SAVE: '/award/request/save',
+        PENDING: '/award/request/pending',
+        APPROVE: '/award/response/approved',
+        REJECT: '/award/response/disapprove'
     },
     SPONSOR: [
         S3_BUCKET + '/banner-petpals.png',

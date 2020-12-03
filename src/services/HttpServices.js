@@ -54,7 +54,10 @@ export default class HttpService {
           localStorage.removeItem('token');
           alert('UNAUTHORIZED!');
         }
-        return response.json()
+
+        return {
+          status: response.status === 200
+        }
       })
       .then(responseJson => {
         successCallback(responseJson)
