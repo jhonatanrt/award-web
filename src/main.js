@@ -4,6 +4,12 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import './../node_modules/bulma/css/bulma.css';
+import 'vue-search-select/dist/VueSearchSelect.css'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faTrash, faUserPlus, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+library.add(faTrash, faUserPlus, faCheck)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false;
 Vue.use(VeeValidate);

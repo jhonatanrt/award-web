@@ -68,6 +68,43 @@ export default class HttpService {
       });
   }
 
+  put() {
+    const { url, headersCallback, errorCallback, successCallback, body } = this;
+    const token = localStorage.token;
+    const auth = (token ? `Basic ${token}` : undefined);
+    const headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      ...(
+        auth ? { 'Authorization': auth } : {}
+      )
+    };
+
+    fetch(url, {
+      method: 'PUT',
+      headers: headers,
+      body: JSON.stringify(body),
+    })
+      .then(response => {
+        headersCallback && headersCallback(response.headers);
+        if (response.status == 401 || response.status == 403) {
+          localStorage.removeItem('token');
+          alert('UNAUTHORIZED!');
+        }
+
+        return {
+          status: response.status === 200
+        }
+      })
+      .then(responseJson => {
+        successCallback(responseJson)
+      })
+      .catch(requestPostError => {
+        console.log({ requestPostError, url });
+        errorCallback(requestPostError)
+      });
+  }
+
   get() {
     const { url, headersCallback, errorCallback, successCallback } = this;
     const token = localStorage.getItem('token');

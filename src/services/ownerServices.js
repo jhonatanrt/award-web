@@ -15,6 +15,19 @@ const getWorker = (body) => {
     });
 }
 
+const getFreeWorkers = (body) => {
+    return new Promise((resolve, reject) => {
+        (new HttpServices()).setUrl(`${CONSTANTS.API}${CONSTANTS.URL_APIS.USER_FREE}${body.userId}/assignment`)
+            .success(response => {
+                resolve(response);
+            })
+            .error(error => {
+                reject(error);
+            })
+            .get()
+    });
+}
+
 const setRequestAction = (body) => {
     return new Promise((resolve, reject) => {
         (new HttpServices()).setUrl(`${CONSTANTS.API}${body.action === 1 ? CONSTANTS.URL_APIS.APPROVE : CONSTANTS.URL_APIS.REJECT}`)
@@ -26,6 +39,20 @@ const setRequestAction = (body) => {
                 reject(error);
             })
             .post()
+    });
+}
+
+const setRequestEditAction = (body) => {
+    return new Promise((resolve, reject) => {
+        (new HttpServices()).setUrl(`${CONSTANTS.API}${CONSTANTS.URL_APIS.APPROVE}`)
+            .setBody(body.data)
+            .success(response => {
+                resolve(response);
+            })
+            .error(error => {
+                reject(error);
+            })
+            .put()
     });
 }
 
@@ -75,5 +102,7 @@ export default {
     getCategory,
     saveAward,
     getPendingRequest,
-    setRequestAction
+    setRequestAction,
+    getFreeWorkers,
+    setRequestEditAction
 }

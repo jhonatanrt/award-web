@@ -44,7 +44,7 @@
                   <div class="control">
                     <div class="select is-fullwidth">
                       <select v-model="awardForm.idMonth">
-                        <option val="" disabled>Seleccione Mes</option>
+                        <option value="" disabled>Seleccione Mes</option>
                         <option
                           v-for="(item, index) in monthList"
                           :key="index"
@@ -61,7 +61,7 @@
                   <div class="control">
                     <div class="select is-fullwidth">
                       <select v-model="awardForm.idYear">
-                        <option val="" disabled>Seleccione Año</option>
+                        <option value="" disabled>Seleccione Año</option>
                         <option
                           v-for="(item, index) in yearList"
                           :key="index"
@@ -156,15 +156,21 @@
                       >
                         Aprobar
                       </button>
-                      <button
+                      <!-- <button
                         class="button is-danger"
                         @click="showActionModal(2, element)"
                       >
                         Rechazar
-                      </button>
+                      </button> -->
                     </div>
                     <div class="buttons" v-if="element.status !== 0">
-                      <button class="button is-warning" title="Disabled button" disabled>Sin Acciones</button>
+                      <button
+                        class="button is-warning"
+                        title="Disabled button"
+                        disabled
+                      >
+                        Sin Acciones
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -192,7 +198,7 @@
                 <strong>Hola, {{ modal.userName }}</strong>
                 <p>
                   ¿Está seguro que desea <strong>{{ modal.detail }}</strong> las
-                  solicitud(es)?
+                  solicitud?
                 </p>
               </div>
               <div class="buttons is-right">
@@ -278,49 +284,138 @@
                       />
                     </div>
                   </div>
-                  <label class="label">Lista de Trabajadores</label>
-                  <div class="field-form">
-                    <div
-                      v-for="(item, index) in modal.data.usersSelected"
-                      :key="index"
-                    >
-                      <div class="field is-horizontal">
-                        <div class="field-label is-normal">
-                          <label class="label">Nombre</label>
-                        </div>
-                        <div class="field-body">
-                          <div class="field">
-                            <div class="control">
-                              <input
-                                class="input"
-                                type="text"
-                                v-bind:value="item.userInfo.name"
-                                disabled
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="field is-horizontal">
-                        <div class="field-label is-normal">
-                          <label class="label">Comentarios</label>
-                        </div>
-                        <div class="field-body">
-                          <div class="field">
-                            <div class="control">
-                              <textarea
-                                class="textarea"
-                                v-bind:value="item.comentary"
-                              ></textarea>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <hr />
-                    </div>
-                  </div>
                 </fieldset>
+                <br />
+                <label class="label has-button"
+                  >Lista de Trabajadores
+                  <button class="button is-warning" @click="addWorker()">
+                    <span class="icon is-small">
+                      <font-awesome-icon icon="user-plus" />
+                    </span>
+                  </button>
+                </label>
+                <div class="field-form">
+                  <div class="columns is-desktop" v-if="freeList.length > 0">
+                    <div class="column is-four-fifths-desktop">
+                      <fieldset>
+                        <div class="field is-horizontal">
+                          <div class="field-label is-normal">
+                            <label class="label">Nombres</label>
+                          </div>
+                          <div class="field-body">
+                            <div class="field">
+                              <div class="control">
+                                <model-select
+                                  :options="freeList"
+                                  v-model="userForm"
+                                  placeholder="select item"
+                                >
+                                </model-select>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="field is-horizontal">
+                          <div class="field-label is-normal">
+                            <label class="label">Detalle</label>
+                          </div>
+                          <div class="field-body">
+                            <div class="field">
+                              <div class="control">
+                                <textarea
+                                  class="textarea"
+                                  v-model="userForm.comentary"
+                                ></textarea>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </fieldset>
+                    </div>
+                    <div class="column">
+                      <div class="buttons is-right">
+                        <button class="button is-success">
+                          <span class="icon is-small">
+                            <font-awesome-icon
+                              icon="check"
+                              @click="addUser()"
+                            />
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                    <hr />
+                  </div>
+                  <div
+                    v-for="(item, index) in modal.data.usersSelected"
+                    :key="index"
+                  >
+                    <div class="columns is-desktop">
+                      <div class="column is-four-fifths-desktop">
+                        <fieldset>
+                          <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                              <label class="label">Nombres</label>
+                            </div>
+                            <div class="field-body">
+                              <div class="field">
+                                <div class="control">
+                                  <input
+                                    class="input"
+                                    type="text"
+                                    v-bind:value="item.userInfo.name"
+                                    disabled
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                              <label class="label">Detalle</label>
+                            </div>
+                            <div class="field-body">
+                              <div class="field">
+                                <div class="control">
+                                  <textarea
+                                    class="textarea"
+                                    v-model="item.comentary"
+                                  ></textarea>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </fieldset>
+                      </div>
+                      <div class="column">
+                        <div class="buttons is-right">
+                          <button
+                            class="button is-danger"
+                            @click="deleteCurrentWorker(item)"
+                          >
+                            <span class="icon is-small">
+                              <font-awesome-icon icon="trash" />
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <hr />
+                  </div>
+                </div>
                 <div class="buttons is-right">
+                  <button
+                    class="button is-success"
+                    @click="setEditAction(modal.data)"
+                  >
+                    Aprobar
+                  </button>
+                  <!-- <button
+                    class="button is-danger"
+                    @click="showActionModal(2, element)"
+                  >
+                    Rechazar
+                  </button> -->
                   <button class="button" @click="hideInfoModal()">
                     Cerrar
                   </button>
@@ -349,11 +444,13 @@ import AppLayout from "@/components/app-layout.vue";
 import AppLoader from "@/components/app-loader.vue";
 import ownerServices from "@/services/ownerServices";
 import helpers from "@/util/helpers";
+import { ModelSelect } from "vue-search-select";
 
 export default {
   name: "award",
   components: {
     AppLayout,
+    ModelSelect,
   },
   created() {
     this.fecthData();
@@ -365,8 +462,10 @@ export default {
 
     return {
       awardForm: {
-        idMonth: monthList.find((item) => item.active).name,
-        idYear: yearList.find((item) => item.active).name,
+        // idMonth: monthList.find((item) => item.active).name,
+        // idYear: yearList.find((item) => item.active).name,
+        idMonth: "",
+        idYear: "",
         data: [],
         status: 0,
       },
@@ -375,7 +474,15 @@ export default {
         userName: "Eli Tanta",
         data: [],
       },
+      userForm: {
+        value: "",
+        text: "",
+        userId: "",
+        name: "",
+        comentary: "",
+      },
       selectedList: [],
+      freeList: [],
       yearList,
       monthList,
       stateActionModal: false,
@@ -414,10 +521,9 @@ export default {
     fecthData() {
       ownerServices
         .getPendingRequest({
-          userId: 2,
+          userId: 2
         })
         .then((response) => {
-          
           this.fake = response;
         })
         .catch((error) => {
@@ -441,6 +547,45 @@ export default {
         .catch((error) => {
           throw new Error(`API ${error}`);
         });
+    },
+    addUser() {
+      const selectedUser = this.freeList.find(
+        (element) => element.userId == this.userForm.value
+      );
+      const userTemp = {
+        userInfo: selectedUser,
+        userId: selectedUser.userId,
+        comentary: this.userForm.comentary,
+      };
+      console.log({ userTemp });
+      let dataTemp = [...this.modal.data.usersSelected];
+      this.modal.data.usersSelected = [userTemp, ...dataTemp];
+      this.freeList = [];
+    },
+    addWorker() {
+      ownerServices
+        .getFreeWorkers({
+          userId: 1,
+        })
+        .then((response) => {
+          this.freeList = (response || []).map((element) => ({
+            ...element,
+            value: element.userId,
+            text: `${element.document} - ${element.name} ${element.lastName}`,
+          }));
+          
+          this.userForm.comentary = "";
+          this.userForm.value = "";
+        })
+        .catch((error) => {
+          throw new Error(`API ${error}`);
+        });
+    },
+    deleteCurrentWorker(payload) {
+      let dataTemp = [...this.modal.data.usersSelected];
+      this.modal.data.usersSelected = dataTemp.filter(
+        (item) => item.userId !== payload.userId
+      );
     },
     selectOption(element) {
       const dataTemp = [...this.fake];
@@ -477,19 +622,35 @@ export default {
     },
     showInfoModal(payload) {
       this.stateInfoModal = true;
-      this.modal.data = payload;
+      this.modal.data = JSON.parse(JSON.stringify(payload));
     },
-    setAction(statusType, payload) {
+    setEditAction(payload){
       ownerServices
-        .setRequestAction({
-          action: statusType,
-          data: [{ awardId: payload.awardId }],
+        .setRequestEditAction({
+          data: [{ awardId: payload.awardId, usersSelected: payload.usersSelected.map(({comentary, userId}) => ({ comentary,userId })) }],
         })
         .then((response) => {
           console.log(response);
-          if(response.status){
-            this.hideActionModal()
-            this.searchWorker()
+          if (response.status) {
+            this.hideInfoModal();
+            this.searchWorker();
+          }
+        })
+        .catch((error) => {
+          throw new Error(`API ${error}`);
+        });
+    },
+    setAction(statusType, payload) {
+      console.log({payload})
+      ownerServices
+        .setRequestEditAction({
+          data: [{ awardId: payload.awardId, usersSelected: payload.usersSelected.map(({comentary, userId}) => ({ comentary,userId })) }],
+        })
+        .then((response) => {
+          console.log(response);
+          if (response.status) {
+            this.hideActionModal();
+            this.searchWorker();
           }
         })
         .catch((error) => {
@@ -553,7 +714,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.table__empty{
+.table__empty {
   display: flex;
   justify-content: center;
   padding: 20px;
@@ -567,8 +728,8 @@ export default {
   align-items: flex-end;
 }
 .field-form {
-  max-height: 22rem;
-  overflow-y: scroll;
+  /* max-height: 22rem; */
+  /* overflow-y: scroll; */
   margin-bottom: 40px;
   padding-top: 25px;
 }
@@ -622,5 +783,12 @@ thead {
 }
 table {
   width: 400px;
+}
+.has-button {
+  display: flex;
+  align-items: center;
+  button {
+    margin-left: 15px;
+  }
 }
 </style>
