@@ -52,7 +52,7 @@ const setRequestEditAction = (body) => {
             .error(error => {
                 reject(error);
             })
-            .put()
+            .post()
     });
 }
 

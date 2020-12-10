@@ -1,6 +1,10 @@
 <template>
- <div class="loader-wrapper is-actives" v-bind:class="{ 'is-active': element.active }">
-    <div class="loader is-loading"></div>
+<div class="content-loader" v-if="active">
+ <div class="loading">
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
 </div>
 </template>
 
@@ -17,29 +21,51 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.loader-wrapper {
-    position: absolute;
+$charade: #282a37;
+$bluebell: #979fd0;
+
+.content-loader {
+    position: fixed;
+    background-color: black;
+    opacity: 0.6;
     top: 0;
+    right: 0;
+    bottom: 0;
     left: 0;
+    z-index: 1000;
     height: 100%;
-    width: 100%;
-    background: #fff;
-    opacity: 0;
-    z-index: -1;
-    transition: opacity .3s;
     display: flex;
-    justify-content: center;
     align-items: center;
-    border-radius: 6px;
-
-        .loader {
-            height: 80px;
-            width: 80px;
-        }
-
-    &.is-active {
-        opacity: 1;
-        z-index: 1;
-    }
+    justify-content: center;
 }
+
+.loading {
+  display: flex;
+  justify-content: center;
+    
+  div {
+    width: 1rem;
+    height: 1rem;
+    margin: 2rem 0.3rem;
+    background: $bluebell;
+    border-radius: 50%;
+    animation: 0.9s bounce infinite alternate;
+
+    &:nth-child(2) {
+      animation-delay: 0.3s;
+    }
+
+    &:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+  }
+}
+
+@keyframes bounce {
+  to {
+    opacity: 0.3;
+    transform: translate3d(0, -1rem, 0);
+  }
+}
+
 </style>

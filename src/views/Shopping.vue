@@ -1,5 +1,6 @@
 <template>
   <AppLayout>
+    <AppLoader v-bind:active="loaderStatus"></AppLoader>
     <div class="hero is-primary is-bold">
       <div class="hero-body">
         <div class="container">
@@ -26,7 +27,7 @@
             <div class="field is-grouped">
               <p class="control is-expanded">
                 <input
-                  class="input is-large"
+                  class="input is-normal"
                   type="text"
                   v-model="searchText"
                   v-on:keyup.enter="searchWorker"
@@ -34,7 +35,7 @@
                 />
               </p>
               <p class="control">
-                <a class="button is-link is-large" @click="searchWorker"
+                <a class="button is-link is-normal" @click="searchWorker"
                   >Buscar Trabajador
                 </a>
               </p>
@@ -42,7 +43,7 @@
           </div>
         </div>
         <div class="columns">
-          <div class="column is-3 is-2-widescreen">
+          <!-- <div class="column is-3 is-2-widescreen">
             <div class="menu">
               <p class="menu-label">Filtrar por área</p>
               <ul class="menu-list">
@@ -72,11 +73,11 @@
                 </li>
               </ul>
             </div>
-          </div>
-          <div class="column is-9 is-10-widescreen">
+          </div> -->
+          <div class="column is-12 is-12-widescreen">
             <div class="columns is-multiline" id="grid">
               <div
-                class="column is-6 is-4-widescreen is-flex"
+                class="column is-6 is-3-widescreen is-flex"
                 v-for="(element, index) in fake"
                 :key="index"
               >
@@ -187,9 +188,9 @@
                   @click="showRegisterModal"
                 >
                   <span class="icon">
-                    <i class="far fa-check-circle"></i>
+                    <font-awesome-icon icon="thumbs-up" />
                   </span>
-                  <span>APROBAR</span>
+                  <span>Aprobar</span>
                 </a>
               </p>
             </div>
@@ -335,6 +336,7 @@
 
 <script>
 import AppLayout from "@/components/app-layout.vue";
+import AppLoader from "@/components/app-loader.vue";
 import ownerServices from "@/services/ownerServices";
 import helpers from "@/util/helpers";
 
@@ -342,6 +344,7 @@ export default {
   name: "shopping",
   components: {
     AppLayout,
+    AppLoader
   },
   created() {
     this.fecthData();
@@ -352,6 +355,7 @@ export default {
     const monthList = helpers.generateMonths();
 
     return {
+      loaderStatus: false,
       awardForm: {
         idCategory: 1,
         idMonth: monthList.find((item) => item.active).name,
@@ -467,6 +471,7 @@ export default {
     },
     handleSubmit(e) {
       this.submitted = true;
+      this.loaderStatus = true;
       this.$validator.validate().then((valid) => {
         if (valid) {
           const { idCategory, idMonth, idYear, data } = this.awardForm;
@@ -496,7 +501,10 @@ export default {
               }, 2000);
             })
             .catch((error) => {
+              alert()
               throw new Error(`API ${error}`);
+            }).finally(() => {
+              this.loaderStatus = false;
             });
         }
       });

@@ -50,9 +50,9 @@ export default class HttpService {
     })
       .then(response => {
         headersCallback && headersCallback(response.headers);
-        if (response.status == 401 || response.status == 403) {
+        if (response.status !== 200) {
           localStorage.removeItem('token');
-          alert('UNAUTHORIZED!');
+          throw ('ERROR');
         }
 
         return {
@@ -86,10 +86,11 @@ export default class HttpService {
       body: JSON.stringify(body),
     })
       .then(response => {
+        console.log({ response })
         headersCallback && headersCallback(response.headers);
-        if (response.status == 401 || response.status == 403) {
+        if (response.status !== 200) {
           localStorage.removeItem('token');
-          alert('UNAUTHORIZED!');
+          throw ('ERROR');
         }
 
         return {

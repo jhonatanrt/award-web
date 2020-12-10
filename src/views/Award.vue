@@ -1,6 +1,6 @@
 <template>
   <AppLayout>
-    <!-- <AppLoader v-bind:active="true"></AppLoader> -->
+    <AppLoader v-bind:active="loaderStatus"></AppLoader>
     <div class="hero is-primary is-bold">
       <div class="hero-body">
         <div class="container">
@@ -450,10 +450,8 @@ export default {
   name: "award",
   components: {
     AppLayout,
+    AppLoader,
     ModelSelect,
-  },
-  created() {
-    this.fecthData();
   },
   computed: {},
   data() {
@@ -461,11 +459,10 @@ export default {
     const monthList = helpers.generateMonths();
 
     return {
+      loaderStatus: false,
       awardForm: {
-        // idMonth: monthList.find((item) => item.active).name,
-        // idYear: yearList.find((item) => item.active).name,
-        idMonth: "",
-        idYear: "",
+        idMonth: monthList.find((item) => item.active).name,
+        idYear: yearList.find((item) => item.active).name,
         data: [],
         status: 0,
       },
@@ -502,6 +499,9 @@ export default {
       showNotification: false,
     };
   },
+  created() {
+    this.fecthData();
+  },
   methods: {
     nextPage(pageNumber) {
       ownerServices
@@ -521,7 +521,9 @@ export default {
     fecthData() {
       ownerServices
         .getPendingRequest({
-          userId: 2
+          userId: 2,
+          month: this.awardForm.idMonth,
+          year: this.awardForm.idYear,
         })
         .then((response) => {
           this.fake = response;
@@ -625,6 +627,7 @@ export default {
       this.modal.data = JSON.parse(JSON.stringify(payload));
     },
     setEditAction(payload){
+      this.loaderStatus = true;
       ownerServices
         .setRequestEditAction({
           data: [{ awardId: payload.awardId, usersSelected: payload.usersSelected.map(({comentary, userId}) => ({ comentary,userId })) }],
@@ -638,10 +641,13 @@ export default {
         })
         .catch((error) => {
           throw new Error(`API ${error}`);
+        })
+        .finally(() => {
+          this.loaderStatus = false;
         });
     },
     setAction(statusType, payload) {
-      console.log({payload})
+      this.loaderStatus = true;
       ownerServices
         .setRequestEditAction({
           data: [{ awardId: payload.awardId, usersSelected: payload.usersSelected.map(({comentary, userId}) => ({ comentary,userId })) }],
@@ -655,6 +661,9 @@ export default {
         })
         .catch((error) => {
           throw new Error(`API ${error}`);
+        })
+        .finally(() => {
+          this.loaderStatus = false;
         });
     },
     showRegisterModal() {
