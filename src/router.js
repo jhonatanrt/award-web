@@ -19,6 +19,11 @@ export default new Router({
       component: () => import('./views/Shopping.vue'),
     },
     {
+      path: '/reconocimiento',
+      name: 'Award',
+      component: () => import('./views/Award.vue'),
+    },
+    {
       path: '/about',
       name: 'sobre-nosotros',
       component: () => import('./views/About.vue'),

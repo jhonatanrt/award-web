@@ -29,8 +29,8 @@
             <div class="navbar-end">
               <a href="/" class="navbar-item is-active">Principal</a>
               <a href="/detalle" class="navbar-item">Premiación</a>
-              <a href="/library" class="navbar-item">Reconocimiento</a>
-              <a href="/blog" class="navbar-item">Somos</a>
+              <a href="/reconocimiento" class="navbar-item">Reconocimiento</a>
+              <a href="/about" class="navbar-item">Somos</a>
               <!-- <div class="navbar-item">
                 <a
                   href="https://itunes.apple.com/us/app/bedtime-stories-read-tell/id1231933548"

@@ -15,6 +15,60 @@ const getWorker = (body) => {
     });
 }
 
+const getFreeWorkers = (body) => {
+    return new Promise((resolve, reject) => {
+        (new HttpServices()).setUrl(`${CONSTANTS.API}${CONSTANTS.URL_APIS.USER_FREE}${body.userId}/assignment`)
+            .success(response => {
+                resolve(response);
+            })
+            .error(error => {
+                reject(error);
+            })
+            .get()
+    });
+}
+
+const setRequestAction = (body) => {
+    return new Promise((resolve, reject) => {
+        (new HttpServices()).setUrl(`${CONSTANTS.API}${body.action === 1 ? CONSTANTS.URL_APIS.APPROVE : CONSTANTS.URL_APIS.REJECT}`)
+            .setBody(body.data)
+            .success(response => {
+                resolve(response);
+            })
+            .error(error => {
+                reject(error);
+            })
+            .post()
+    });
+}
+
+const setRequestEditAction = (body) => {
+    return new Promise((resolve, reject) => {
+        (new HttpServices()).setUrl(`${CONSTANTS.API}${CONSTANTS.URL_APIS.APPROVE}`)
+            .setBody(body.data)
+            .success(response => {
+                resolve(response);
+            })
+            .error(error => {
+                reject(error);
+            })
+            .post()
+    });
+}
+
+const getPendingRequest = (body) => {
+    return new Promise((resolve, reject) => {
+        (new HttpServices()).setUrl(`${CONSTANTS.API}${CONSTANTS.URL_APIS.PENDING}?userId=${body.userId}${body.month ? '&month=' + body.month : ''}${body.year ? '&year=' + body.year : ''}`)
+            .success(response => {
+                resolve(response);
+            })
+            .error(error => {
+                reject(error);
+            })
+            .get()
+    });
+}
+
 const getCategory = (body) => {
     return new Promise((resolve, reject) => {
         (new HttpServices()).setUrl(`${CONSTANTS.API}${CONSTANTS.URL_APIS.CATEGORY}`)
@@ -46,5 +100,9 @@ const saveAward = (body) => {
 export default {
     getWorker,
     getCategory,
-    saveAward
+    saveAward,
+    getPendingRequest,
+    setRequestAction,
+    getFreeWorkers,
+    setRequestEditAction
 }

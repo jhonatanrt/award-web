@@ -47,4 +47,7 @@ body {
 .spacer.is-horizontal {
   display: inline-block;
 }
+.hero-body{
+  padding: 2rem 1.5rem !important;
+}
 </style>

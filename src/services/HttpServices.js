@@ -42,7 +42,7 @@ export default class HttpService {
         auth ? { 'Authorization': auth } : {}
       )
     };
-    console.log('headers', headers)
+
     fetch(url, {
       method: 'POST',
       headers: headers,
@@ -50,11 +50,52 @@ export default class HttpService {
     })
       .then(response => {
         headersCallback && headersCallback(response.headers);
-        if (response.status == 401 || response.status == 403) {
+        if (response.status !== 200) {
           localStorage.removeItem('token');
-          alert('UNAUTHORIZED!');
+          throw ('ERROR');
         }
-        return response.json()
+
+        return {
+          status: response.status === 200
+        }
+      })
+      .then(responseJson => {
+        successCallback(responseJson)
+      })
+      .catch(requestPostError => {
+        console.log({ requestPostError, url });
+        errorCallback(requestPostError)
+      });
+  }
+
+  put() {
+    const { url, headersCallback, errorCallback, successCallback, body } = this;
+    const token = localStorage.token;
+    const auth = (token ? `Basic ${token}` : undefined);
+    const headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      ...(
+        auth ? { 'Authorization': auth } : {}
+      )
+    };
+
+    fetch(url, {
+      method: 'PUT',
+      headers: headers,
+      body: JSON.stringify(body),
+    })
+      .then(response => {
+        console.log({ response })
+        headersCallback && headersCallback(response.headers);
+        if (response.status !== 200) {
+          localStorage.removeItem('token');
+          throw ('ERROR');
+        }
+
+        return {
+          status: response.status === 200
+        }
       })
       .then(responseJson => {
         successCallback(responseJson)

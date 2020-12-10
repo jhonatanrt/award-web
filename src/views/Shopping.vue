@@ -1,5 +1,6 @@
 <template>
   <AppLayout>
+    <AppLoader v-bind:active="loaderStatus"></AppLoader>
     <div class="hero is-primary is-bold">
       <div class="hero-body">
         <div class="container">
@@ -26,20 +27,23 @@
             <div class="field is-grouped">
               <p class="control is-expanded">
                 <input
-                  class="input is-large"
+                  class="input is-normal"
                   type="text"
                   v-model="searchText"
+                  v-on:keyup.enter="searchWorker"
                   placeholder="Escriba DNI, Nombre o Apellidos"
                 />
               </p>
               <p class="control">
-                <a class="button is-link is-large"> Buscar Trabajador </a>
+                <a class="button is-link is-normal" @click="searchWorker"
+                  >Buscar Trabajador
+                </a>
               </p>
             </div>
           </div>
         </div>
         <div class="columns">
-          <div class="column is-3 is-2-widescreen">
+          <!-- <div class="column is-3 is-2-widescreen">
             <div class="menu">
               <p class="menu-label">Filtrar por área</p>
               <ul class="menu-list">
@@ -69,11 +73,11 @@
                 </li>
               </ul>
             </div>
-          </div>
-          <div class="column is-9 is-10-widescreen">
+          </div> -->
+          <div class="column is-12 is-12-widescreen">
             <div class="columns is-multiline" id="grid">
               <div
-                class="column is-6 is-4-widescreen is-flex"
+                class="column is-6 is-3-widescreen is-flex"
                 v-for="(element, index) in fake"
                 :key="index"
               >
@@ -122,10 +126,13 @@
               role="navigation"
               aria-label="pagination"
             >
-              <a class="pagination-previous">Anterior</a>
-              <a class="pagination-next">Siguiente</a>
+              <a class="pagination-previous" @click="nextPage(currentPage - 1)" v-if="currentPage !== 1">Anterior</a>
+              <a class="pagination-next" @click="nextPage(currentPage + 1)" v-if="currentPage !== pagesNumber && pagesNumber > 0">Siguiente</a>
               <ul class="pagination-list">
-                <li>
+                <li v-for="index in pagesNumber" :key="index">
+                  <a class="pagination-link" v-bind:class="{ 'is-current': index == currentPage }" @click="nextPage(index)">{{index}}</a>
+                </li>
+                <!-- <li>
                   <a class="pagination-link is-current" aria-label="Goto page 1"
                     >1</a
                   >
@@ -148,7 +155,7 @@
                 <li><span class="pagination-ellipsis">&hellip;</span></li>
                 <li>
                   <a class="pagination-link" aria-label="Goto page 8">8</a>
-                </li>
+                </li> -->
               </ul>
             </nav>
           </div>
@@ -167,7 +174,7 @@
               :key="index"
             >
               {{ element.name }} {{ element.lastName }}
-              <button class="delete"></button>
+              <button class="delete" @click="selectOption(element)"></button>
             </span>
           </a>
         </div>
@@ -181,9 +188,9 @@
                   @click="showRegisterModal"
                 >
                   <span class="icon">
-                    <i class="far fa-check-circle"></i>
+                    <font-awesome-icon icon="thumbs-up" />
                   </span>
-                  <span>APROBAR</span>
+                  <span>Aprobar</span>
                 </a>
               </p>
             </div>
@@ -329,6 +336,7 @@
 
 <script>
 import AppLayout from "@/components/app-layout.vue";
+import AppLoader from "@/components/app-loader.vue";
 import ownerServices from "@/services/ownerServices";
 import helpers from "@/util/helpers";
 
@@ -336,6 +344,7 @@ export default {
   name: "shopping",
   components: {
     AppLayout,
+    AppLoader
   },
   created() {
     this.fecthData();
@@ -346,6 +355,7 @@ export default {
     const monthList = helpers.generateMonths();
 
     return {
+      loaderStatus: false,
       awardForm: {
         idCategory: 1,
         idMonth: monthList.find((item) => item.active).name,
@@ -357,134 +367,41 @@ export default {
       monthList,
       searchText: "",
       stateRegisterModal: false,
-      // stateRegisterModal: false,
       fake: [],
+      pagesNumber: 0,
+      currentPage: 1,
       categoryList: [],
-      // fake: [
-      //   {
-      //     userId: 3,
-      //     documentType: "DNI",
-      //     document: "88888888",
-      //     name: "Jhonny",
-      //     lastName: "Tanta",
-      //     birthDate: "1991-11-26",
-      //     address: "calle sueore viva",
-      //     photoUrl:
-      //       "https://scontent.flim19-1.fna.fbcdn.net/v/t1.0-1/p200x200/22228337_10210098810966063_5576753613056883978_n.jpg?_nc_cat=106&ccb=2&_nc_sid=7206a8&_nc_eui2=AeGuNW8frFqop6iVCUJI2pZhC_I7NLS-dZQL8js0tL51lD-t1LD0KWCQJBsKgSjefKE&_nc_ohc=kA5cr6yXnigAX8RkDv0&_nc_ht=scontent.flim19-1.fna&tp=6&oh=0fe9c767ca1481061accd3284db959fd&oe=5FDF8054",
-      //   },
-      //   {
-      //     userId: 4,
-      //     documentType: "DNI",
-      //     document: "33333333",
-      //     name: "Jhonny",
-      //     lastName: "Tanta",
-      //     birthDate: "1991-11-26",
-      //     address: "calle sueore viva",
-      //     photoUrl:
-      //       "https://scontent.flim19-1.fna.fbcdn.net/v/t1.0-1/p200x200/22228337_10210098810966063_5576753613056883978_n.jpg?_nc_cat=106&ccb=2&_nc_sid=7206a8&_nc_eui2=AeGuNW8frFqop6iVCUJI2pZhC_I7NLS-dZQL8js0tL51lD-t1LD0KWCQJBsKgSjefKE&_nc_ohc=kA5cr6yXnigAX8RkDv0&_nc_ht=scontent.flim19-1.fna&tp=6&oh=0fe9c767ca1481061accd3284db959fd&oe=5FDF8054",
-      //   },
-      //   {
-      //     userId: 5,
-      //     documentType: "DNI",
-      //     document: "55555555",
-      //     name: "Jhonny",
-      //     lastName: "Duro",
-      //     birthDate: "1991-11-26",
-      //     address: "calle sueore viva",
-      //     photoUrl:
-      //       "https://scontent.flim19-1.fna.fbcdn.net/v/t1.0-1/p200x200/22228337_10210098810966063_5576753613056883978_n.jpg?_nc_cat=106&ccb=2&_nc_sid=7206a8&_nc_eui2=AeGuNW8frFqop6iVCUJI2pZhC_I7NLS-dZQL8js0tL51lD-t1LD0KWCQJBsKgSjefKE&_nc_ohc=kA5cr6yXnigAX8RkDv0&_nc_ht=scontent.flim19-1.fna&tp=6&oh=0fe9c767ca1481061accd3284db959fd&oe=5FDF8054",
-      //   },
-      //   {
-      //     userId: 6,
-      //     documentType: "DNI",
-      //     document: "77777888",
-      //     name: "Jhonny",
-      //     lastName: "Duro",
-      //     birthDate: "1991-11-26",
-      //     address: "calle sueore viva",
-      //     photoUrl:
-      //       "https://scontent.flim19-1.fna.fbcdn.net/v/t1.0-1/p200x200/22228337_10210098810966063_5576753613056883978_n.jpg?_nc_cat=106&ccb=2&_nc_sid=7206a8&_nc_eui2=AeGuNW8frFqop6iVCUJI2pZhC_I7NLS-dZQL8js0tL51lD-t1LD0KWCQJBsKgSjefKE&_nc_ohc=kA5cr6yXnigAX8RkDv0&_nc_ht=scontent.flim19-1.fna&tp=6&oh=0fe9c767ca1481061accd3284db959fd&oe=5FDF8054",
-      //   },
-      //   {
-      //     userId: 7,
-      //     documentType: "DNI",
-      //     document: "77777888",
-      //     name: "Jhonny",
-      //     lastName: "Duro",
-      //     birthDate: "1991-11-26",
-      //     address: "calle sueore viva",
-      //     photoUrl:
-      //       "https://scontent.flim19-1.fna.fbcdn.net/v/t1.0-1/p200x200/22228337_10210098810966063_5576753613056883978_n.jpg?_nc_cat=106&ccb=2&_nc_sid=7206a8&_nc_eui2=AeGuNW8frFqop6iVCUJI2pZhC_I7NLS-dZQL8js0tL51lD-t1LD0KWCQJBsKgSjefKE&_nc_ohc=kA5cr6yXnigAX8RkDv0&_nc_ht=scontent.flim19-1.fna&tp=6&oh=0fe9c767ca1481061accd3284db959fd&oe=5FDF8054",
-      //   },
-      //   {
-      //     userId: 8,
-      //     documentType: "DNI",
-      //     document: "667777777",
-      //     name: "Jhonny",
-      //     lastName: "Duro",
-      //     birthDate: "1991-11-26",
-      //     address: "calle sueore viva",
-      //     photoUrl:
-      //       "https://scontent.flim19-1.fna.fbcdn.net/v/t1.0-1/p200x200/22228337_10210098810966063_5576753613056883978_n.jpg?_nc_cat=106&ccb=2&_nc_sid=7206a8&_nc_eui2=AeGuNW8frFqop6iVCUJI2pZhC_I7NLS-dZQL8js0tL51lD-t1LD0KWCQJBsKgSjefKE&_nc_ohc=kA5cr6yXnigAX8RkDv0&_nc_ht=scontent.flim19-1.fna&tp=6&oh=0fe9c767ca1481061accd3284db959fd&oe=5FDF8054",
-      //   },
-      //   {
-      //     userId: 9,
-      //     documentType: "DNI",
-      //     document: "988888888",
-      //     name: "Jhonny",
-      //     lastName: "Duro",
-      //     birthDate: "1991-11-26",
-      //     address: "calle sueore viva",
-      //     photoUrl:
-      //       "https://scontent.flim19-1.fna.fbcdn.net/v/t1.0-1/p200x200/22228337_10210098810966063_5576753613056883978_n.jpg?_nc_cat=106&ccb=2&_nc_sid=7206a8&_nc_eui2=AeGuNW8frFqop6iVCUJI2pZhC_I7NLS-dZQL8js0tL51lD-t1LD0KWCQJBsKgSjefKE&_nc_ohc=kA5cr6yXnigAX8RkDv0&_nc_ht=scontent.flim19-1.fna&tp=6&oh=0fe9c767ca1481061accd3284db959fd&oe=5FDF8054",
-      //   },
-      //   {
-      //     userId: 10,
-      //     documentType: "DNI",
-      //     document: "55555666",
-      //     name: "Jhonny",
-      //     lastName: "Duro",
-      //     birthDate: "1991-11-26",
-      //     address: "calle sueore viva",
-      //     photoUrl:
-      //       "https://scontent.flim19-1.fna.fbcdn.net/v/t1.0-1/p200x200/22228337_10210098810966063_5576753613056883978_n.jpg?_nc_cat=106&ccb=2&_nc_sid=7206a8&_nc_eui2=AeGuNW8frFqop6iVCUJI2pZhC_I7NLS-dZQL8js0tL51lD-t1LD0KWCQJBsKgSjefKE&_nc_ohc=kA5cr6yXnigAX8RkDv0&_nc_ht=scontent.flim19-1.fna&tp=6&oh=0fe9c767ca1481061accd3284db959fd&oe=5FDF8054",
-      //   },
-      //   {
-      //     userId: 11,
-      //     documentType: "DNI",
-      //     document: "55555666",
-      //     name: "Jhonny6",
-      //     lastName: "Duro",
-      //     birthDate: "1991-11-26",
-      //     address: "calle sueore viva",
-      //     photoUrl:
-      //       "https://scontent.flim19-1.fna.fbcdn.net/v/t1.0-1/p200x200/22228337_10210098810966063_5576753613056883978_n.jpg?_nc_cat=106&ccb=2&_nc_sid=7206a8&_nc_eui2=AeGuNW8frFqop6iVCUJI2pZhC_I7NLS-dZQL8js0tL51lD-t1LD0KWCQJBsKgSjefKE&_nc_ohc=kA5cr6yXnigAX8RkDv0&_nc_ht=scontent.flim19-1.fna&tp=6&oh=0fe9c767ca1481061accd3284db959fd&oe=5FDF8054",
-      //   },
-      // ],
       availableButton: false,
       selectedNumber: 0,
-      // categoryList: [
-      //   {
-      //     categoryId: 1,
-      //     name: "Mejor Vendedor Del Mes",
-      //   },
-      //   {
-      //     categoryId: 2,
-      //     name: "Mejor Equipo Del Mes",
-      //   },
-      // ],
+      showNotification: false,
     };
   },
   methods: {
+    nextPage(pageNumber) {
+      ownerServices
+        .getWorker({
+          limit: 10,
+          offset: 10*(pageNumber - 1),
+          userId: 1,
+        })
+        .then(({ pages, users }) => {
+          this.fake = users;
+          this.currentPage = pageNumber;
+        })
+        .catch((error) => {
+          throw new Error(`API ${error}`);
+        });
+    },
     fecthData() {
       ownerServices
         .getWorker({
-          limit: 20,
+          limit: 10,
           offset: 0,
           userId: 1,
         })
-        .then((response) => {
-          this.fake = response;
+        .then(({ pages, users }) => {
+          this.fake = users;
+          this.pagesNumber = pages.totalPages;
         })
         .catch((error) => {
           throw new Error(`API ${error}`);
@@ -502,13 +419,14 @@ export default {
     searchWorker() {
       ownerServices
         .getWorker({
-          limit: 20,
+          limit: 10,
           offset: 0,
           userId: 1,
           name: this.searchText,
         })
-        .then((response) => {
-          this.fake = response;
+        .then(({pages, users}) => {
+          this.fake = users;
+          this.pagesNumber = pages.totalPages;
         })
         .catch((error) => {
           throw new Error(`API ${error}`);
@@ -529,11 +447,10 @@ export default {
       const detailShow = this.fake.filter((item) => item.active);
       this.selectedList = detailShow;
       this.selectedNumber = detailShow.length;
-      if (detailShow.length > 0) this.availableButton = true;
+      this.availableButton = detailShow.length > 0;
     },
     hideRegisterModal() {
       this.stateRegisterModal = false;
-
     },
     showRegisterModal() {
       this.awardForm.data = this.selectedList.map((item) => ({
@@ -554,15 +471,19 @@ export default {
     },
     handleSubmit(e) {
       this.submitted = true;
+      this.loaderStatus = true;
       this.$validator.validate().then((valid) => {
         if (valid) {
-          const {idCategory, idMonth, idYear, data} = this.awardForm;
+          const { idCategory, idMonth, idYear, data } = this.awardForm;
           const request = {
             categoryId: idCategory,
             month: idMonth,
             year: idYear,
             userId: 1,
-            usersSelected: data.map(item => ({ userId: item.userId, comentary: item.comment}))
+            usersSelected: data.map((item) => ({
+              userId: item.userId,
+              comentary: item.comment,
+            })),
           };
 
           ownerServices
@@ -576,11 +497,14 @@ export default {
               this.availableButton = false;
               this.showNotification = true;
               setTimeout(() => {
-                this.showNotification = false
+                this.showNotification = false;
               }, 2000);
             })
             .catch((error) => {
+              alert()
               throw new Error(`API ${error}`);
+            }).finally(() => {
+              this.loaderStatus = false;
             });
         }
       });
@@ -589,9 +513,10 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.field-form{
+.field-form {
   max-height: 22rem;
-  overflow-y: scroll; 
+  overflow-y: scroll;
+  margin-bottom: 40px;
 }
 .is-spaced {
   margin-right: 15px;
@@ -683,4 +608,5 @@ export default {
   content: "";
   padding-bottom: 63.80597%;
 }
+
 </style>
