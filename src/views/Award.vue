@@ -132,7 +132,7 @@
                     <div class="buttons">
                       <button
                         class="button is-info"
-                        @click="showInfoModal(element)"
+                        @click="showInfoModal(element, element.status? 2 : 1)"
                       >
                         Visualizar
                       </button>
@@ -225,132 +225,78 @@
 
     <div
       class="modal"
-      v-bind:class="{ 'is-active': stateInfoModal }"
-      v-if="stateInfoModal"
+      v-bind:class="{ 'is-active': stateInfoModal === 1 }"
+      v-if="stateInfoModal === 1"
     >
       <div class="modal-background" @click="hideInfoModal()"></div>
       <div class="modal-content">
         <div class="box">
-          <article class="media">
-            <div class="media-content">
-              <div class="content modal--content">
-                <strong>Detalle de solicitud</strong>
-                <hr />
-                <fieldset disabled>
-                  <div class="field">
-                    <label class="label">Tipo Categoría</label>
-                    <div class="control">
-                      <input
-                        class="input"
-                        type="text"
-                        v-bind:value="modal.data.categoryName"
-                      />
-                    </div>
-                  </div>
-                  <div class="field is-grouped">
-                    <div class="control">
-                      <div class="field">
-                        <label class="label">Año</label>
-                        <div class="control">
-                          <input
-                            class="input"
-                            type="email"
-                            v-bind:value="modal.data.year"
-                          />
-                        </div>
+          <fieldset>
+            <article class="media">
+              <div class="media-content">
+                <div class="content modal--content">
+                  <strong>Detalle de solicitud</strong>
+                  <hr />
+                  <fieldset disabled>
+                    <div class="field">
+                      <label class="label">Tipo Categoría</label>
+                      <div class="control">
+                        <input
+                          class="input"
+                          type="text"
+                          v-bind:value="modal.data.categoryName"
+                        />
                       </div>
                     </div>
-                    <div class="control">
-                      <div class="field">
-                        <label class="label">Mes</label>
-                        <div class="control">
-                          <input
-                            class="input"
-                            type="email"
-                            v-bind:value="modal.data.month"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="field">
-                    <label class="label">Responsable</label>
-                    <div class="control">
-                      <input
-                        class="input"
-                        type="email"
-                        v-bind:value="modal.data.nameRequest"
-                      />
-                    </div>
-                  </div>
-                </fieldset>
-                <br />
-                <label class="label has-button"
-                  >Lista de Trabajadores
-                  <button class="button is-warning" @click="addWorker()">
-                    <span class="icon is-small">
-                      <font-awesome-icon icon="user-plus" />
-                    </span>
-                  </button>
-                </label>
-                <div class="field-form">
-                  <div class="columns is-desktop" v-if="freeList.length > 0">
-                    <div class="column is-four-fifths-desktop">
-                      <fieldset>
-                        <div class="field is-horizontal">
-                          <div class="field-label is-normal">
-                            <label class="label">Nombres</label>
-                          </div>
-                          <div class="field-body">
-                            <div class="field">
-                              <div class="control">
-                                <model-select
-                                  :options="freeList"
-                                  v-model="userForm"
-                                  placeholder="select item"
-                                >
-                                </model-select>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="field is-horizontal">
-                          <div class="field-label is-normal">
-                            <label class="label">Detalle</label>
-                          </div>
-                          <div class="field-body">
-                            <div class="field">
-                              <div class="control">
-                                <textarea
-                                  class="textarea"
-                                  v-model="userForm.comentary"
-                                ></textarea>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </fieldset>
-                    </div>
-                    <div class="column">
-                      <div class="buttons is-right">
-                        <button class="button is-success">
-                          <span class="icon is-small">
-                            <font-awesome-icon
-                              icon="check"
-                              @click="addUser()"
+                    <div class="field is-grouped">
+                      <div class="control">
+                        <div class="field">
+                          <label class="label">Año</label>
+                          <div class="control">
+                            <input
+                              class="input"
+                              type="email"
+                              v-bind:value="modal.data.year"
                             />
-                          </span>
-                        </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="control">
+                        <div class="field">
+                          <label class="label">Mes</label>
+                          <div class="control">
+                            <input
+                              class="input"
+                              type="email"
+                              v-bind:value="modal.data.month"
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <hr />
-                  </div>
-                  <div
-                    v-for="(item, index) in modal.data.usersSelected"
-                    :key="index"
-                  >
-                    <div class="columns is-desktop">
+
+                    <div class="field">
+                      <label class="label">Responsable</label>
+                      <div class="control">
+                        <input
+                          class="input"
+                          type="email"
+                          v-bind:value="modal.data.nameRequest"
+                        />
+                      </div>
+                    </div>
+                  </fieldset>
+                  <br />
+                  <label class="label has-button"
+                    >Lista de Trabajadores
+                    <button class="button is-warning" @click="addWorker()">
+                      <span class="icon is-small">
+                        <font-awesome-icon icon="user-plus" />
+                      </span>
+                    </button>
+                  </label>
+                  <div class="field-form">
+                    <div class="columns is-desktop" v-if="freeList.length > 0">
                       <div class="column is-four-fifths-desktop">
                         <fieldset>
                           <div class="field is-horizontal">
@@ -360,12 +306,12 @@
                             <div class="field-body">
                               <div class="field">
                                 <div class="control">
-                                  <input
-                                    class="input"
-                                    type="text"
-                                    v-bind:value="item.userInfo.name"
-                                    disabled
-                                  />
+                                  <model-select
+                                    :options="freeList"
+                                    v-model="userForm"
+                                    placeholder="select item"
+                                  >
+                                  </model-select>
                                 </div>
                               </div>
                             </div>
@@ -379,7 +325,7 @@
                                 <div class="control">
                                   <textarea
                                     class="textarea"
-                                    v-model="item.comentary"
+                                    v-model="userForm.comentary"
                                   ></textarea>
                                 </div>
                               </div>
@@ -389,44 +335,241 @@
                       </div>
                       <div class="column">
                         <div class="buttons is-right">
-                          <button
-                            class="button is-danger"
-                            @click="deleteCurrentWorker(item)"
-                          >
+                          <button class="button is-success" @click="addUser()">
                             <span class="icon is-small">
-                              <font-awesome-icon icon="trash" />
+                              <font-awesome-icon icon="check" />
                             </span>
+                            &nbsp; Agregar
                           </button>
                         </div>
                       </div>
+                      <hr />
                     </div>
-                    <hr />
+                    <div
+                      v-for="(item, index) in modal.data.usersSelected"
+                      :key="index"
+                    >
+                      <div class="columns is-desktop">
+                        <div class="column is-four-fifths-desktop">
+                          <fieldset>
+                            <div class="field is-horizontal">
+                              <div class="field-label is-normal">
+                                <label class="label">Nombres</label>
+                              </div>
+                              <div class="field-body">
+                                <div class="field">
+                                  <div class="control">
+                                    <input
+                                      class="input"
+                                      type="text"
+                                      v-bind:value="item.userInfo.name"
+                                      disabled
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="field is-horizontal">
+                              <div class="field-label is-normal">
+                                <label class="label">Foto</label>
+                              </div>
+                              <div class="field-body">
+                                <figure class="image is-64x64">
+                                  <img v-bind:src="item.userInfo.photoUrl"/>
+                                </figure>
+                              </div>
+                            </div>
+                            <div class="field is-horizontal">
+                              <div class="field-label is-normal">
+                                <label class="label">Detalle</label>
+                              </div>
+                              <div class="field-body">
+                                <div class="field">
+                                  <div class="control">
+                                    <textarea
+                                      class="textarea"
+                                      v-model="item.comentary"
+                                    ></textarea>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </fieldset>
+                        </div>
+                        <div class="column">
+                          <div class="buttons is-right">
+                            <button
+                              class="button is-danger"
+                              @click="deleteCurrentWorker(item)"
+                            >
+                              <span class="icon is-small">
+                                <font-awesome-icon icon="trash" />
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <hr />
+                    </div>
+                  </div>
+                  <div class="buttons is-right">
+                    <button
+                      class="button is-success"
+                      @click="setEditAction(modal.data)"
+                    >
+                      Aprobar
+                    </button>
+                    <!-- <button
+                      class="button is-danger"
+                      @click="showActionModal(2, element)"
+                    >
+                      Rechazar
+                    </button> -->
+                    <button class="button" @click="hideInfoModal()">
+                      Cerrar
+                    </button>
                   </div>
                 </div>
-                <div class="buttons is-right">
-                  <button
-                    class="button is-success"
-                    @click="setEditAction(modal.data)"
-                  >
-                    Aprobar
-                  </button>
-                  <!-- <button
-                    class="button is-danger"
-                    @click="showActionModal(2, element)"
-                  >
-                    Rechazar
-                  </button> -->
-                  <button class="button" @click="hideInfoModal()">
-                    Cerrar
-                  </button>
+                <!-- <div class="buttons is-right">
+                  <button class="button is-success" @click="setAction(modal.statusType, modal.data)">Aceptar</button>
+                  <button class="button" @click="hideActionModal()">Cancelar</button>
+                </div> -->
+              </div>
+            </article>
+          </fieldset>
+        </div>
+      </div>
+      <button
+        class="modal-close is-large"
+        aria-label="close"
+        @click="hideInfoModal()"
+      ></button>
+    </div>
+
+    <div
+      class="modal"
+      v-bind:class="{ 'is-active': stateInfoModal === 2 }"
+      v-if="stateInfoModal === 2"
+    >
+      <div class="modal-background" @click="hideInfoModal()"></div>
+      <div class="modal-content">
+        <div class="box">
+            <article class="media">
+              <div class="media-content">
+                <div class="content modal--content">
+                  <strong>Detalle de solicitud</strong>
+                  <hr />
+                  <fieldset disabled>
+                    <div class="field">
+                      <label class="label">Tipo Categoría</label>
+                      <div class="control">
+                        <input
+                          class="input"
+                          type="text"
+                          v-bind:value="modal.data.categoryName"
+                        />
+                      </div>
+                    </div>
+                    <div class="field is-grouped">
+                      <div class="control">
+                        <div class="field">
+                          <label class="label">Año</label>
+                          <div class="control">
+                            <input
+                              class="input"
+                              type="email"
+                              v-bind:value="modal.data.year"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="control">
+                        <div class="field">
+                          <label class="label">Mes</label>
+                          <div class="control">
+                            <input
+                              class="input"
+                              type="email"
+                              v-bind:value="modal.data.month"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <label class="label">Responsable</label>
+                      <div class="control">
+                        <input
+                          class="input"
+                          type="email"
+                          v-bind:value="modal.data.nameRequest"
+                        />
+                      </div>
+                    </div>
+                  <br />
+                  <label class="label has-button"
+                    >Lista de Trabajadores
+                  </label>
+                  <div class="field-form">
+                    <div
+                      v-for="(item, index) in modal.data.usersSelected"
+                      :key="index"
+                    >
+                        <div class="field is-horizontal">
+                          <div class="field-label is-normal">
+                            <label class="label">Nombres</label>
+                          </div>
+                          <div class="field-body">
+                            <div class="field">
+                              <div class="control">
+                                <input
+                                  class="input"
+                                  type="text"
+                                  v-bind:value="item.userInfo.name"
+                                  disabled
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="field is-horizontal">
+                          <div class="field-label is-normal">
+                            <label class="label">Foto</label>
+                          </div>
+                          <div class="field-body">
+                            <figure class="image is-64x64">
+                              <img v-bind:src="item.userInfo.photoUrl"/>
+                            </figure>
+                          </div>
+                        </div>
+                        <div class="field is-horizontal">
+                          <div class="field-label is-normal">
+                            <label class="label">Detalle</label>
+                          </div>
+                          <div class="field-body">
+                            <div class="field">
+                              <div class="control">
+                                <textarea
+                                  class="textarea"
+                                  v-model="item.comentary"
+                                ></textarea>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      <hr />
+                    </div>
+                  </div>
+                  </fieldset>
+                  <div class="buttons is-right">
+                    <button class="button" @click="hideInfoModal()">
+                      Cerrar
+                    </button>
+                  </div>
                 </div>
               </div>
-              <!-- <div class="buttons is-right">
-                <button class="button is-success" @click="setAction(modal.statusType, modal.data)">Aceptar</button>
-                <button class="button" @click="hideActionModal()">Cancelar</button>
-              </div> -->
-            </div>
-          </article>
+            </article>
         </div>
       </div>
       <button
@@ -483,7 +626,7 @@ export default {
       yearList,
       monthList,
       stateActionModal: false,
-      stateInfoModal: false,
+      stateInfoModal: 0,
       fake: [],
       statusList: [
         { id: "", name: "Todos" },
@@ -551,36 +694,55 @@ export default {
         });
     },
     addUser() {
-      const selectedUser = this.freeList.find(
-        (element) => element.userId == this.userForm.value
-      );
-      const userTemp = {
-        userInfo: selectedUser,
-        userId: selectedUser.userId,
-        comentary: this.userForm.comentary,
-      };
-      console.log({ userTemp });
-      let dataTemp = [...this.modal.data.usersSelected];
-      this.modal.data.usersSelected = [userTemp, ...dataTemp];
-      this.freeList = [];
+      try {
+        const selectedUser = this.freeList.find(
+          (element) => element.userId == this.userForm.value
+        );
+        console.log(selectedUser);
+        const userTemp = {
+          userInfo: selectedUser,
+          userId: selectedUser.userId,
+          photoUrl: selectedUser.photoUrl,
+          comentary: this.userForm.comentary,
+        };
+        console.log({ userTemp });
+        let dataTemp = [...this.modal.data.usersSelected];
+        this.modal.data.usersSelected = [userTemp, ...dataTemp];
+        this.freeList = [];
+      } catch (error) {
+        console.log(error);
+      }
     },
     addWorker() {
+      this.loaderStatus = true;
       ownerServices
         .getFreeWorkers({
           userId: 1,
         })
         .then((response) => {
-          this.freeList = (response || []).map((element) => ({
-            ...element,
-            value: element.userId,
-            text: `${element.document} - ${element.name} ${element.lastName}`,
-          }));
-          
+          this.freeList = (response || [])
+            .map((element) => ({
+              ...element,
+              value: element.userId,
+              text: `${element.document} - ${element.name} ${element.lastName}`,
+            }))
+            .filter((item) => {
+              const hasRepeat = this.modal.data.usersSelected.find(
+                (element) => element.userId == item.userId
+              );
+              if (hasRepeat) return false;
+
+              return true;
+            });
+
           this.userForm.comentary = "";
           this.userForm.value = "";
         })
         .catch((error) => {
           throw new Error(`API ${error}`);
+        })
+        .finally(() => {
+          this.loaderStatus = false;
         });
     },
     deleteCurrentWorker(payload) {
@@ -610,7 +772,7 @@ export default {
       this.stateActionModal = false;
     },
     hideInfoModal() {
-      this.stateInfoModal = false;
+      this.stateInfoModal = 0;
     },
     hideRegisterModal() {
       this.stateRegisterModal = false;
@@ -622,15 +784,23 @@ export default {
       this.modal.statusType = statusType;
       this.modal.data = payload;
     },
-    showInfoModal(payload) {
-      this.stateInfoModal = true;
+    showInfoModal(payload, modalType) {
+      this.freeList = [];
+      this.stateInfoModal = modalType;
       this.modal.data = JSON.parse(JSON.stringify(payload));
     },
-    setEditAction(payload){
+    setEditAction(payload) {
       this.loaderStatus = true;
       ownerServices
         .setRequestEditAction({
-          data: [{ awardId: payload.awardId, usersSelected: payload.usersSelected.map(({comentary, userId}) => ({ comentary,userId })) }],
+          data: [
+            {
+              awardId: payload.awardId,
+              usersSelected: payload.usersSelected.map(
+                ({ comentary, userId }) => ({ comentary, userId })
+              ),
+            },
+          ],
         })
         .then((response) => {
           console.log(response);
@@ -650,7 +820,14 @@ export default {
       this.loaderStatus = true;
       ownerServices
         .setRequestEditAction({
-          data: [{ awardId: payload.awardId, usersSelected: payload.usersSelected.map(({comentary, userId}) => ({ comentary,userId })) }],
+          data: [
+            {
+              awardId: payload.awardId,
+              usersSelected: payload.usersSelected.map(
+                ({ comentary, userId }) => ({ comentary, userId })
+              ),
+            },
+          ],
         })
         .then((response) => {
           console.log(response);
@@ -799,5 +976,8 @@ table {
   button {
     margin-left: 15px;
   }
+}
+.content figure {
+  margin-left: 0
 }
 </style>
