@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-//const API = 'http://localhost:8080';
-const API = 'http://api-award.us-east-2.elasticbeanstalk.com'
-=======
 const API = 'http://api-award.us-east-2.elasticbeanstalk.com';
->>>>>>> 6815e21bbe6da0a5721806a4daf218c6fab08b89
 const API_HOST = `${API}/api`;
 const S3_BUCKET = ``;
 
