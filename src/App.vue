@@ -50,4 +50,14 @@ body {
 .hero-body{
   padding: 2rem 1.5rem !important;
 }
+.progress:not(:last-child){
+  margin-bottom: 0 !important;
+}
+
+.reveal section img {
+    margin: 15px 0px;
+    background: rgba(255, 255, 255, 0.12);
+    border: none;
+    box-shadow: none;
+}
 </style>

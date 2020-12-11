@@ -132,7 +132,7 @@
                     <div class="buttons">
                       <button
                         class="button is-info"
-                        @click="showInfoModal(element, element.status? 2 : 1)"
+                        @click="showInfoModal(element, element.status ? 2 : 1)"
                       >
                         Visualizar
                       </button>
@@ -142,7 +142,7 @@
                     <div class="buttons" v-if="element.status === 1">
                       <button
                         class="button is-info"
-                        @click="showInfoModal(element)"
+                        @click="showSlideModal(element)"
                       >
                         Ver
                       </button>
@@ -375,7 +375,7 @@
                               </div>
                               <div class="field-body">
                                 <figure class="image is-64x64">
-                                  <img v-bind:src="item.userInfo.photoUrl"/>
+                                  <img v-bind:src="item.userInfo.photoUrl" />
                                 </figure>
                               </div>
                             </div>
@@ -454,122 +454,120 @@
       <div class="modal-background" @click="hideInfoModal()"></div>
       <div class="modal-content">
         <div class="box">
-            <article class="media">
-              <div class="media-content">
-                <div class="content modal--content">
-                  <strong>Detalle de solicitud</strong>
-                  <hr />
-                  <fieldset disabled>
-                    <div class="field">
-                      <label class="label">Tipo Categoría</label>
-                      <div class="control">
-                        <input
-                          class="input"
-                          type="text"
-                          v-bind:value="modal.data.categoryName"
-                        />
-                      </div>
+          <article class="media">
+            <div class="media-content">
+              <div class="content modal--content">
+                <strong>Detalle de solicitud</strong>
+                <hr />
+                <fieldset disabled>
+                  <div class="field">
+                    <label class="label">Tipo Categoría</label>
+                    <div class="control">
+                      <input
+                        class="input"
+                        type="text"
+                        v-bind:value="modal.data.categoryName"
+                      />
                     </div>
-                    <div class="field is-grouped">
-                      <div class="control">
-                        <div class="field">
-                          <label class="label">Año</label>
-                          <div class="control">
-                            <input
-                              class="input"
-                              type="email"
-                              v-bind:value="modal.data.year"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div class="control">
-                        <div class="field">
-                          <label class="label">Mes</label>
-                          <div class="control">
-                            <input
-                              class="input"
-                              type="email"
-                              v-bind:value="modal.data.month"
-                            />
-                          </div>
+                  </div>
+                  <div class="field is-grouped">
+                    <div class="control">
+                      <div class="field">
+                        <label class="label">Año</label>
+                        <div class="control">
+                          <input
+                            class="input"
+                            type="email"
+                            v-bind:value="modal.data.year"
+                          />
                         </div>
                       </div>
                     </div>
+                    <div class="control">
+                      <div class="field">
+                        <label class="label">Mes</label>
+                        <div class="control">
+                          <input
+                            class="input"
+                            type="email"
+                            v-bind:value="modal.data.month"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-                    <div class="field">
-                      <label class="label">Responsable</label>
-                      <div class="control">
-                        <input
-                          class="input"
-                          type="email"
-                          v-bind:value="modal.data.nameRequest"
-                        />
-                      </div>
+                  <div class="field">
+                    <label class="label">Responsable</label>
+                    <div class="control">
+                      <input
+                        class="input"
+                        type="email"
+                        v-bind:value="modal.data.nameRequest"
+                      />
                     </div>
+                  </div>
                   <br />
-                  <label class="label has-button"
-                    >Lista de Trabajadores
-                  </label>
+                  <label class="label has-button">Lista de Trabajadores </label>
                   <div class="field-form">
                     <div
                       v-for="(item, index) in modal.data.usersSelected"
                       :key="index"
                     >
-                        <div class="field is-horizontal">
-                          <div class="field-label is-normal">
-                            <label class="label">Nombres</label>
-                          </div>
-                          <div class="field-body">
-                            <div class="field">
-                              <div class="control">
-                                <input
-                                  class="input"
-                                  type="text"
-                                  v-bind:value="item.userInfo.name"
-                                  disabled
-                                />
-                              </div>
+                      <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                          <label class="label">Nombres</label>
+                        </div>
+                        <div class="field-body">
+                          <div class="field">
+                            <div class="control">
+                              <input
+                                class="input"
+                                type="text"
+                                v-bind:value="item.userInfo.name"
+                                disabled
+                              />
                             </div>
                           </div>
                         </div>
-                        <div class="field is-horizontal">
-                          <div class="field-label is-normal">
-                            <label class="label">Foto</label>
-                          </div>
-                          <div class="field-body">
-                            <figure class="image is-64x64">
-                              <img v-bind:src="item.userInfo.photoUrl"/>
-                            </figure>
-                          </div>
+                      </div>
+                      <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                          <label class="label">Foto</label>
                         </div>
-                        <div class="field is-horizontal">
-                          <div class="field-label is-normal">
-                            <label class="label">Detalle</label>
-                          </div>
-                          <div class="field-body">
-                            <div class="field">
-                              <div class="control">
-                                <textarea
-                                  class="textarea"
-                                  v-model="item.comentary"
-                                ></textarea>
-                              </div>
+                        <div class="field-body">
+                          <figure class="image is-64x64">
+                            <img v-bind:src="item.userInfo.photoUrl" />
+                          </figure>
+                        </div>
+                      </div>
+                      <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                          <label class="label">Detalle</label>
+                        </div>
+                        <div class="field-body">
+                          <div class="field">
+                            <div class="control">
+                              <textarea
+                                class="textarea"
+                                v-model="item.comentary"
+                              ></textarea>
                             </div>
                           </div>
                         </div>
+                      </div>
                       <hr />
                     </div>
                   </div>
-                  </fieldset>
-                  <div class="buttons is-right">
-                    <button class="button" @click="hideInfoModal()">
-                      Cerrar
-                    </button>
-                  </div>
+                </fieldset>
+                <div class="buttons is-right">
+                  <button class="button" @click="hideInfoModal()">
+                    Cerrar
+                  </button>
                 </div>
               </div>
-            </article>
+            </div>
+          </article>
         </div>
       </div>
       <button
@@ -578,9 +576,19 @@
         @click="hideInfoModal()"
       ></button>
     </div>
+    <div class="content__slide" v-bind:class="{ 'is-hidden': !showSlide }">
+      <button
+        class="modal-close is-large content-close"
+        aria-label="close"
+        @click="hideSlide()"
+      ></button>
+      <AppSlideshow 
+        v-bind:data="slideInfo.data"
+        v-bind:detail="slideInfo.detail"
+      ></AppSlideshow>
+    </div>
   </AppLayout>
 </template>
-
 
 <script>
 import AppLayout from "@/components/app-layout.vue";
@@ -588,6 +596,7 @@ import AppLoader from "@/components/app-loader.vue";
 import ownerServices from "@/services/ownerServices";
 import helpers from "@/util/helpers";
 import { ModelSelect } from "vue-search-select";
+import AppSlideshow from "@/components/app-slideshow.vue";
 
 export default {
   name: "award",
@@ -595,6 +604,7 @@ export default {
     AppLayout,
     AppLoader,
     ModelSelect,
+    AppSlideshow,
   },
   computed: {},
   data() {
@@ -602,7 +612,12 @@ export default {
     const monthList = helpers.generateMonths();
 
     return {
+      showSlide: false,
       loaderStatus: false,
+      slideInfo: {
+        data: {},
+        detail: [{ name: "" }],
+      },
       awardForm: {
         idMonth: monthList.find((item) => item.active).name,
         idYear: yearList.find((item) => item.active).name,
@@ -646,6 +661,9 @@ export default {
     this.fecthData();
   },
   methods: {
+    hideSlide(){
+      this.showSlide = false;
+    },
     nextPage(pageNumber) {
       ownerServices
         .getWorker({
@@ -660,6 +678,19 @@ export default {
         .catch((error) => {
           throw new Error(`API ${error}`);
         });
+    },
+    showSlideModal(payload){
+      this.slideInfo = {
+        data: {
+          title: payload.categoryName,
+          month: payload.month
+        },
+        detail: payload.usersSelected.map(item => ({
+          ...item.userInfo,
+          comentary: item.comentary
+        }))
+      }
+      this.showSlide = true;
     },
     fecthData() {
       ownerServices
@@ -698,14 +729,14 @@ export default {
         const selectedUser = this.freeList.find(
           (element) => element.userId == this.userForm.value
         );
-        console.log(selectedUser);
+
         const userTemp = {
           userInfo: selectedUser,
           userId: selectedUser.userId,
           photoUrl: selectedUser.photoUrl,
           comentary: this.userForm.comentary,
         };
-        console.log({ userTemp });
+
         let dataTemp = [...this.modal.data.usersSelected];
         this.modal.data.usersSelected = [userTemp, ...dataTemp];
         this.freeList = [];
@@ -803,7 +834,7 @@ export default {
           ],
         })
         .then((response) => {
-          console.log(response);
+
           if (response.status) {
             this.hideInfoModal();
             this.searchWorker();
@@ -830,7 +861,6 @@ export default {
           ],
         })
         .then((response) => {
-          console.log(response);
           if (response.status) {
             this.hideActionModal();
             this.searchWorker();
@@ -900,6 +930,28 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.content-close {
+  &::before, &::after{
+    background-color: black;
+  }
+  &:hover{
+    background-color: #0a0a0a17;
+  }
+  z-index: 900;
+}
+.content__slide {
+  display: inline-block;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 800;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  background-color: #f3f3f3;
+}
 .table__empty {
   display: flex;
   justify-content: center;
@@ -978,6 +1030,9 @@ table {
   }
 }
 .content figure {
-  margin-left: 0
+  margin-left: 0;
+}
+.is-hidden{
+  display: none;
 }
 </style>

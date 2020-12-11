@@ -1,7 +1,5 @@
 <template>
-  <section class="hero is-primary">
-    <!-- <AppSlideshow></AppSlideshow> -->
-  </section>
+  <AppSlideshow></AppSlideshow>
 </template>
 
 

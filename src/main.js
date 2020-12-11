@@ -8,9 +8,7 @@ import 'vue-search-select/dist/VueSearchSelect.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faTrash, faUserPlus, faCheck, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import Eagle from 'eagle.js'
 
-Vue.use(Eagle)
 library.add(faTrash, faUserPlus, faCheck, faThumbsUp)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
