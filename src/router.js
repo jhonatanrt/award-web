@@ -24,7 +24,7 @@ export default new Router({
       component: () => import('./views/Award.vue'),
     },
     {
-      path: '/about',
+      path: '/informacion',
       name: 'sobre-nosotros',
       component: () => import('./views/About.vue'),
       // meta: {

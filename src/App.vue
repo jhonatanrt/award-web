@@ -15,8 +15,13 @@
 #nav {
   padding: 30px;
 }
+html {
+  overflow-y: hidden !important;
+}
+
 body {
   color: #998da0;
+  overflow-y: auto;
 }
 .has-background {
   background-color: #fbfbfd;
@@ -60,4 +65,5 @@ body {
     border: none;
     box-shadow: none;
 }
+
 </style>

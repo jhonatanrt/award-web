@@ -13,6 +13,7 @@ export default {
         APPROVE: '/award/response/approved',
         REJECT: '/award/response/disapprove',
         USER_FREE: '/award/user/',
+        LIST_AWARD: '/award',
     },
     SPONSOR: [
         S3_BUCKET + '/banner-petpals.png',

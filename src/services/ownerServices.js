@@ -96,6 +96,19 @@ const saveAward = (body) => {
     });
 }
 
+const getAwardByWorker = (body) => {
+    return new Promise((resolve, reject) => {
+        (new HttpServices()).setUrl(`${CONSTANTS.API}${CONSTANTS.URL_APIS.LIST_AWARD}/${body.userId}/${body.year}`)
+            .success(response => {
+                resolve(response);
+            })
+            .error(error => {
+                reject(error);
+            })
+            .get()
+    });
+}
+
 
 export default {
     getWorker,
@@ -104,5 +117,6 @@ export default {
     getPendingRequest,
     setRequestAction,
     getFreeWorkers,
-    setRequestEditAction
+    setRequestEditAction,
+    getAwardByWorker
 }
