@@ -62,7 +62,10 @@
               v-for="(element, ind) in awardList[item.name] || []"
               :key="ind"
             >
-              <div class="ic-award" @click="showInfoModal(element, 1)"></div>
+              <div
+                class="ic-award"
+                @click="showInfoModal(element, item, 1)"
+              ></div>
             </div>
           </div>
         </div>
@@ -107,7 +110,10 @@
                   </fieldset>
                   <br />
                   <div class="buttons">
-                    <button class="button is-facebook">
+                    <button
+                      class="button is-facebook"
+                      @click="shareSocial(modal, 1)"
+                    >
                       <span class="icon is-small">
                         <font-awesome-icon
                           :icon="{ prefix: 'fab', iconName: 'facebook-f' }"
@@ -115,7 +121,10 @@
                       </span>
                       &nbsp; Facebook
                     </button>
-                    <button class="button is-twitter">
+                    <button
+                      class="button is-twitter"
+                      @click="shareSocial(modal, 2)"
+                    >
                       <span class="icon is-small">
                         <font-awesome-icon
                           :icon="{ prefix: 'fab', iconName: 'twitter' }"
@@ -123,14 +132,17 @@
                       </span>
                       &nbsp; Twitter
                     </button>
-                    <button class="button is-whatsapp">
+                    <!-- <button
+                      class="button is-whatsapp"
+                      @click="shareSocial(modal, 3)"
+                    >
                       <span class="icon is-small">
                         <font-awesome-icon
                           :icon="{ prefix: 'fab', iconName: 'whatsapp' }"
                         />
                       </span>
                       &nbsp; Whatsapp
-                    </button>
+                    </button> -->
                   </div>
                   <hr />
                   <fieldset disabled>
@@ -208,12 +220,17 @@
         @click="hideInfoModal()"
       ></button>
     </div>
+    <!-- <AppCertification
+      v-bind:data="certification.data"
+      v-bind:detail="certification.detail"
+    /> -->
   </AppLayout>
 </template>
 
 <script>
 import AppLayout from "@/components/app-layout.vue";
 import AppLoader from "@/components/app-loader.vue";
+import AppCertification from "@/components/app-certification.vue";
 import ownerServices from "@/services/ownerServices";
 import helpers from "@/util/helpers";
 import { ModelSelect } from "vue-search-select";
@@ -223,6 +240,7 @@ export default {
   components: {
     AppLayout,
     AppLoader,
+    AppCertification,
     ModelSelect,
   },
   computed: {},
@@ -250,6 +268,10 @@ export default {
         name: "",
         comentary: "",
       },
+      certification: {
+        data: { user: {} },
+        detail: {},
+      },
       yearList,
       monthList,
       awardList: {},
@@ -264,6 +286,16 @@ export default {
     this.searchAward();
   },
   methods: {
+    shareSocial(payload, socialType) {
+      const { data, item } = payload;
+      console.log({ data, item });
+      this.certification = {
+        data: {...data, month: item.name},
+        detail: {
+          fullName: 'Eli tanta'
+        }
+      }
+    },
     searchAward() {
       ownerServices
         .getAwardByWorker({
@@ -284,10 +316,11 @@ export default {
     hideInfoModal() {
       this.stateInfoModal = 0;
     },
-    showInfoModal(payload, modalType) {
+    showInfoModal(payload, item, modalType) {
       this.freeList = [];
       this.stateInfoModal = modalType;
       this.modal.data = JSON.parse(JSON.stringify(payload));
+      this.modal.item = JSON.parse(JSON.stringify(item));
     },
   },
 };
