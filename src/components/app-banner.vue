@@ -14,7 +14,7 @@
             </h2>
             <div class="field is-grouped">
               <div class="control">
-                <a class="button is-primary is-medium" href="#platform"
+                <a class="button is-primary is-medium" @click="openModal"
                   >Iniciar Sesión</a
                 >
               </div>
@@ -62,6 +62,11 @@ export default {
     title: String,
     subtitle: String,
   },
+  methods: {
+    openModal() {
+      this.$emit('setLogin', '')
+    }
+  }
 };
 </script>
 

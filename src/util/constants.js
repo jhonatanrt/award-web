@@ -14,6 +14,7 @@ export default {
         REJECT: '/award/response/disapprove',
         USER_FREE: '/award/user/',
         LIST_AWARD: '/award',
+        LOGIN: '/login',
     },
     SPONSOR: [
         S3_BUCKET + '/banner-petpals.png',

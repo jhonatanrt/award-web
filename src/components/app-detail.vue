@@ -65,55 +65,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-/* .feature {
-  &__button{
-    margin-top: 30px;
-  }
-  &__box{
-    margin: 4rem;
-    align-self: center;
-  }
-}
-.title {
-  font-size: 28px;
-  line-height: 42px;
-  color: #546496;
-}
-.image-box{
-  padding: 20%;
-}
-.banner{
-  &__title{
-    text-align: center;
-  }
-}
-.banner__subtitle{
-  padding: 0 5rem;
-  text-align: center;
-}
-
-.container {
-    margin: 0 auto;
-    position: relative;
-}
-@media screen and (min-width: 1472px){
-  .container {
-    max-width: 1344px;
-    width: 1344px;
-  }
-}
-@media screen and (min-width: 1280px){
-  .container {
-    max-width: 1152px;
-    width: 1152px;
-  }
-}
-@media screen and (min-width: 1080px){
-  .container {
-    max-width: 960px;
-    width: 960px;
-  }
-} */
 .card {
   background-color: transparent;
   box-shadow: none;

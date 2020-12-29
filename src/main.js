@@ -6,15 +6,18 @@ import store from './store';
 import './../node_modules/bulma/css/bulma.css';
 import 'vue-search-select/dist/VueSearchSelect.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faTrash, faUserPlus, faCheck, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import { faTrash, faUserPlus, faCheck, faThumbsUp, faDownload } from '@fortawesome/free-solid-svg-icons'
 import { faFacebookF, faTwitter, faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import babelPolyfill from 'babel-polyfill'
+import VueHtml2Canvas from 'vue-html2canvas';
 
-library.add(faTrash, faUserPlus, faCheck, faThumbsUp, faFacebookF, faTwitter, faWhatsapp)
+library.add(faTrash, faUserPlus, faCheck, faThumbsUp, faFacebookF, faTwitter, faWhatsapp, faDownload)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false;
 Vue.use(VeeValidate);
+Vue.use(VueHtml2Canvas);
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {

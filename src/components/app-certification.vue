@@ -5,25 +5,22 @@
       <div class="certificate-header"></div>
       <div class="certificate-body">
         <p class="certificate-title">
-          <strong
-            >AWARD app</strong
-          >
+          <strong>AWARD app</strong>
         </p>
         <h1>Certificado de premiación</h1>
-        <p class="student-name">{{detail.fullName}} </p>
+        <p class="student-name">{{ detail.fullName }}</p>
         <div class="certificate-content">
           <div class="about-certificate">
             <p>
-              Se completó exitosamente durante el mes de <strong>{{data.month}}</strong>
+              Se completó exitosamente durante el mes de
+              <strong>{{ data.month }}</strong>
             </p>
           </div>
           <p class="topic-title">
-            Se le otorga el premio de <strong>"{{data.categoryName}}"</strong> 
+            Se le otorga el premio de <strong>"{{ data.categoryName }}"</strong>
           </p>
           <div class="text-center">
-            <p class="topic-description text-muted">
-              - {{data.comentary}} -
-            </p>
+            <p class="topic-description text-muted">- {{ data.comentary }} -</p>
           </div>
         </div>
         <div class="certificate-footer text-muted">
@@ -37,7 +34,7 @@
                   <p>Acreditado por</p>
                 </div>
                 <div class="col-md-6">
-                  <p>{{data.user.name}}</p>
+                  <p>{{ data.user.name }}</p>
                 </div>
               </div>
             </div>
@@ -59,9 +56,7 @@ export default {
   data() {
     return { message: "" };
   },
-  mounted() {
-
-  },
+  mounted() {},
 };
 </script>
 
@@ -69,15 +64,13 @@ export default {
 body {
   font-family: Roboto;
 }
-
 .certificate-container {
-  padding: 50px;
-  width: 1024px;
+  width: 100%;
 }
 .certificate {
   border: 20px solid #0c5280;
   padding: 25px;
-  height: 600px;
+  height: 750px;
   position: relative;
 }
 
@@ -99,6 +92,7 @@ body {
 
 .certificate-title {
   text-align: center;
+  font-size: 2rem;
 }
 
 .certificate-body {
@@ -112,17 +106,21 @@ h1 {
 }
 
 .student-name {
-  font-size: 24px;
+  font-size: 3rem;
 }
 
 .certificate-content {
   margin: 0 auto;
-  width: 750px;
+  /* width: 7; */
+}
+.certificate-footer{
+  margin-top: 50px;
 }
 
-.about-certificate {
-  width: 380px;
+.about-certificate,.topic-title, .topic-description {
+  width: 80%;
   margin: 0 auto;
+  font-size: 1.4rem;
 }
 
 .topic-description {

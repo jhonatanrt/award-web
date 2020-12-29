@@ -501,7 +501,6 @@ export default {
               }, 2000);
             })
             .catch((error) => {
-              alert()
               throw new Error(`API ${error}`);
             }).finally(() => {
               this.loaderStatus = false;

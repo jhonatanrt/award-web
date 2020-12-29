@@ -96,6 +96,20 @@ const saveAward = (body) => {
     });
 }
 
+const login = (body) => {
+    return new Promise((resolve, reject) => {
+        (new HttpServices()).setUrl(`${CONSTANTS.API}${CONSTANTS.URL_APIS.LOGIN}`)
+            .setBody(body)
+            .success(response => {
+                resolve(response);
+            })
+            .error(error => {
+                reject(error);
+            })
+            .post()
+    });
+}
+
 const getAwardByWorker = (body) => {
     return new Promise((resolve, reject) => {
         (new HttpServices()).setUrl(`${CONSTANTS.API}${CONSTANTS.URL_APIS.LIST_AWARD}/${body.userId}/${body.year}`)
@@ -118,5 +132,6 @@ export default {
     setRequestAction,
     getFreeWorkers,
     setRequestEditAction,
-    getAwardByWorker
+    getAwardByWorker,
+    login
 }

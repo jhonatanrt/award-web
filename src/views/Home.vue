@@ -1,10 +1,11 @@
 <template>
   <div class="home">
     <AppLayout>
-      <AppBanner title="Freedog" subtitle="La libertad que tu y tu perro necesitan"/>
+      <AppBanner title="Award" subtitle="" @setLogin="setLogin"/>
       <AppDetail :data="contacts" :information="information"/>
       <AppBenefit/>
     </AppLayout>
+    <AppLogin @setLogin="setLogin" v-if="showLogin"/>
   </div>
 </template>
 
@@ -14,6 +15,7 @@ import AppBanner from '@/components/app-banner.vue';
 import AppDetail from '@/components/app-detail.vue';
 import AppLayout from '@/components/app-layout.vue';
 import AppBenefit from '@/components/app-benefit.vue';
+import AppLogin from '@/views/Login.vue';
 
 export default {
   name: 'home',
@@ -22,11 +24,14 @@ export default {
     AppBenefit,
     AppLayout,
     AppDetail,
+    AppLogin,
   },
   data() {
     document.title = 'Award - Premia al mejor';
 
     return {
+      showLogin: false,
+      information: [],
       contacts: {
         idTag: "contacs",
         title: "Miembros",
@@ -36,6 +41,11 @@ export default {
     };
   },
   computed: {
+  },
+  methods: {
+    setLogin() {
+      this.showLogin = !this.showLogin;
+    }
   }
 }
 </script>

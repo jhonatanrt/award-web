@@ -110,7 +110,7 @@
                   </fieldset>
                   <br />
                   <div class="buttons">
-                    <button
+                    <!-- <button
                       class="button is-facebook"
                       @click="shareSocial(modal, 1)"
                     >
@@ -131,6 +131,17 @@
                         />
                       </span>
                       &nbsp; Twitter
+                    </button> -->
+                    <button
+                      class="button is-twitter"
+                      @click="shareSocial(modal, 2)"
+                    >
+                      <span class="icon is-small">
+                        <font-awesome-icon
+                          :icon="{ prefix: 'fa', iconName: 'download' }"
+                        />
+                      </span>
+                      &nbsp; Descargar certificado
                     </button>
                     <!-- <button
                       class="button is-whatsapp"
@@ -220,10 +231,14 @@
         @click="hideInfoModal()"
       ></button>
     </div>
-    <!-- <AppCertification
-      v-bind:data="certification.data"
-      v-bind:detail="certification.detail"
-    /> -->
+    <div class="certification-about">
+      <div ref="printMe" v-bind:class="{ 'is-hidden': !showCertification }">
+        <AppCertification
+          v-bind:data="certification.data"
+          v-bind:detail="certification.detail"
+        />
+      </div>
+    </div>
   </AppLayout>
 </template>
 
@@ -248,6 +263,7 @@ export default {
     const yearList = helpers.generateArrayOfYears();
     const monthList = helpers.generateMonths();
     return {
+      showCertification: false,
       showSlide: false,
       loaderStatus: false,
       awardForm: {
@@ -286,15 +302,29 @@ export default {
     this.searchAward();
   },
   methods: {
-    shareSocial(payload, socialType) {
+    async shareSocial(payload, socialType) {
       const { data, item } = payload;
-      console.log({ data, item });
+      this.showCertification = true;
+      this.loaderStatus = true;
       this.certification = {
         data: {...data, month: item.name},
         detail: {
           fullName: 'Eli tanta'
         }
       }
+      const el = this.$refs.printMe;
+      const options = {
+        type: 'dataURL'
+      }
+      const result = await this.$html2canvas(el, options);
+
+      this.loaderStatus = false;
+      this.showCertification = false;
+      let a = document.createElement("a");
+      a.setAttribute('download', 'certificado.png');
+      a.setAttribute('href', result);
+      a.click();
+
     },
     searchAward() {
       ownerServices
@@ -326,6 +356,17 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.certification-about{
+  padding: 0 5%;
+}
+.is-hidden{
+  display: none;
+}
+@media print{
+ .showOnPrint{
+   display:block !important;
+ }
+}
 .is-facebook {
   background-color: #3b5999;
   color: white;
