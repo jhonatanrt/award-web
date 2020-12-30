@@ -49,7 +49,22 @@
             </div>
           </div>
         </div>
-        <div class="columns is-multiline is-calendar">
+        <div class="columns">
+          <div class="column is-one-third">
+            <figure class="image is-128x128 column-image">
+              <!-- <img v-bind:src="user.photoUrl" /> -->
+              <img src="https://bulma.io/images/placeholders/128x128.png">
+            </figure>
+            <hr>
+            <p class="column-info is-bold">Hola, {{user.name}} {{user.lastName}}</p>
+            <p class="column-info">Número {{user.documentType}} {{user.document}}</p>
+            <p class="column-info">Dirección, {{user.address}}</p>
+            <p class="column-info">Cumpleaños, {{user.birthDate}}</p>
+            <hr>
+            <p class="column-info">Cantidad de Premios:  &nbsp;<strong>{{calculateAward(awardList)}}</strong></p>
+          </div>
+          <div class="column">
+             <div class="columns is-multiline is-calendar">
           <div
             class="column is-month is-one-third"
             v-for="(item, index) in monthList"
@@ -69,6 +84,9 @@
             </div>
           </div>
         </div>
+          </div>
+        </div>
+       
       </div>
     </section>
 
@@ -258,7 +276,6 @@ export default {
     AppCertification,
     ModelSelect,
   },
-  computed: {},
   data() {
     const yearList = helpers.generateArrayOfYears();
     const monthList = helpers.generateMonths();
@@ -301,6 +318,11 @@ export default {
   created() {
     this.searchAward();
   },
+  computed: {
+    user() {
+      return this.$store.state.user;
+    },
+  },
   methods: {
     async shareSocial(payload, socialType) {
       const { data, item } = payload;
@@ -325,6 +347,15 @@ export default {
       a.setAttribute('href', result);
       a.click();
 
+    },
+    calculateAward(payload){
+      let awardAmount = 0;
+      for (const key in payload) {
+        // if (Object.hasOwnProperty.call(object, key)) {
+          const element = payload[key];
+          awardAmount += element.length;
+      }
+      return awardAmount
     },
     searchAward() {
       ownerServices
@@ -356,6 +387,16 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.column-image{
+  margin-bottom: 20px;
+}
+.column-info{
+  font-size: 20px;
+  padding-bottom: 10px;
+  &.is-bold{
+    font-weight: 600;
+  }
+}
 .certification-about{
   padding: 0 5%;
 }

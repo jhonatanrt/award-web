@@ -835,7 +835,7 @@ export default {
         })
         .then((response) => {
 
-          if (response.status) {
+          if (response) {
             this.hideInfoModal();
             this.searchWorker();
           }

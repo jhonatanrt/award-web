@@ -14,8 +14,13 @@ export default {
         REJECT: '/award/response/disapprove',
         USER_FREE: '/award/user/',
         LIST_AWARD: '/award',
-        LOGIN: '/login',
+        LOGIN: '/award/user/login',
     },
+    ROLES: [
+        { code: 1, type: 'MANAGER', route: 'reconocimiento' },
+        { code: 2, type: 'SUPERVISOR', route: 'detalle' },
+        { code: 3, type: 'SELLER', route: 'informacion' },
+    ],
     SPONSOR: [
         S3_BUCKET + '/banner-petpals.png',
     ],

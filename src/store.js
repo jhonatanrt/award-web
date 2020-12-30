@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import ownerServices from './services/ownerServices';
+import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex)
 
@@ -29,6 +30,7 @@ export default new Vuex.Store({
     logout(state) {
       state.status = '';
       state.token = '';
+      state.user = {};
     },
     save_user(state, payload) {
       state.user = {
@@ -48,6 +50,34 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    login({ commit }, body) {
+      return new Promise((resolve, reject) => {
+        commit('auth_request');
+        ownerServices
+          .login(body)
+          .then((response) => {
+            const token = response.userId;
+            const user = response;
+            commit('auth_success', { token, user });
+            if (token)
+              localStorage.setItem('token', token);
+
+            resolve(response);
+          })
+          .catch((error) => {
+            commit('auth_error');
+            localStorage.removeItem('token');
+            reject(err);
+          })
+      })
+    },
+    logout({ commit }) {
+      return new Promise((resolve, reject) => {
+        commit('logout')
+        localStorage.removeItem('token')
+        resolve();
+      })
+    },
     loadWorkersData({ commit }) {
       ownerServices.getWorker({
         limit: 20,
@@ -70,5 +100,6 @@ export default new Vuex.Store({
   getters: {
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
-  }
+  },
+  plugins: [createPersistedState()]
 })

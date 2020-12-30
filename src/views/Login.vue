@@ -27,6 +27,7 @@
             />
           </div>
         </div>
+        <p class="help is-danger" v-if="isLoginError">Usuario no existe, intente nuevamente.</p>
         <br>
         <div class="buttons is-right">
           <button class="button is-success" type="submit">Iniciar sesión</button>
@@ -39,6 +40,7 @@
 
 <script>
 import ownerServices from "@/services/ownerServices";
+import CONSTANTS from "@/util/constants";
 
 export default {
   name: "login",
@@ -47,6 +49,7 @@ export default {
     document.title = "Award - Premia al mejor";
 
     return {
+      isLoginError: false,
       loginForm: {
         document: '',
         password: ''
@@ -64,16 +67,14 @@ export default {
           const { document, password } = this.loginForm;
           const request = { document, password };
 
-          ownerServices
-            .login(request)
-            .then((response) => {
-              console.log(response)
-            })
-            .catch((error) => {
-              throw new Error(`API ${error}`);
-            }).finally(() => {
-              this.loaderStatus = false;
-            });
+        this.$store.dispatch('login', {document, password})
+          .then((response) => {
+            const data = CONSTANTS.ROLES.find((item) => item.code == response.profileId);
+            this.$router.push(data? data.route : '');
+          })
+          .catch(err => console.error(err))
+
+          
         }
       });
     },

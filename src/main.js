@@ -1,16 +1,15 @@
-import Vue from 'vue';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faFacebookF, faTwitter, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { faCheck, faDownload, faThumbsUp, faTrash, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VeeValidate from "vee-validate";
+import Vue from 'vue';
+import VueHtml2Canvas from 'vue-html2canvas';
+import 'vue-search-select/dist/VueSearchSelect.css';
+import './../node_modules/bulma/css/bulma.css';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-import './../node_modules/bulma/css/bulma.css';
-import 'vue-search-select/dist/VueSearchSelect.css'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faTrash, faUserPlus, faCheck, faThumbsUp, faDownload } from '@fortawesome/free-solid-svg-icons'
-import { faFacebookF, faTwitter, faWhatsapp } from '@fortawesome/free-brands-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import babelPolyfill from 'babel-polyfill'
-import VueHtml2Canvas from 'vue-html2canvas';
 
 library.add(faTrash, faUserPlus, faCheck, faThumbsUp, faFacebookF, faTwitter, faWhatsapp, faDownload)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
@@ -25,7 +24,7 @@ router.beforeEach((to, from, next) => {
       next();
       return
     }
-    next('/login');
+    next('/');
   } else {
     next();
   }

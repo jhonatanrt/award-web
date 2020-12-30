@@ -28,9 +28,30 @@
           <div class="navbar-menu" id="mainNav">
             <div class="navbar-end">
               <a href="/" class="navbar-item is-active">Principal</a>
-              <a href="/detalle" class="navbar-item">Premiación</a>
-              <a href="/reconocimiento" class="navbar-item">Reconocimiento</a>
-              <a href="/informacion" class="navbar-item">Somos</a>
+              <a
+                href="/reconocimiento"
+                class="navbar-item"
+                v-if="user.profileId == 1"
+                >Reconocimiento</a
+              >
+              <a
+                href="/detalle"
+                class="navbar-item"
+                v-if="user.profileId == 2 || user.profileId == 1"
+                >Premiación</a
+              >
+              <a
+                href="/informacion"
+                class="navbar-item"
+                v-if="user.profileId == 3"
+                >Somos</a
+              >
+              <div class="navbar-item" v-if="user.profileId">
+                <a class="button is-link" @click="logout">
+                  <strong>Salir</strong>
+                </a>
+              </div>
+
               <!-- <div class="navbar-item">
                 <a
                   href="https://itunes.apple.com/us/app/bedtime-stories-read-tell/id1231933548"
@@ -63,9 +84,22 @@ export default {
       companyName: "...",
     };
   },
+  computed: {
+    user() {
+      return this.$store.state.user;
+    },
+  },
   methods: {
     showMenu() {
       this.isActive = !this.isActive;
+    },
+    logout() {
+      this.$store
+        .dispatch('logout')
+        .then((response) => {
+          this.$router.push('/');
+        })
+        .catch((err) => console.error(err));
     },
   },
 };
@@ -121,21 +155,21 @@ export default {
 }
 
 .app-header .navbar-menu .navbar-item {
-    position: relative;
-    padding: 0.875rem 1rem;
-    margin-left: 0.1rem;
-    margin-right: 0.1rem;
-    border-radius: 10px;
-    font-size: 1.125rem;
-    line-height: 1;
-    font-weight: 500;
-    transition-duration: 86ms;
+  position: relative;
+  padding: 0.875rem 1rem;
+  margin-left: 0.1rem;
+  margin-right: 0.1rem;
+  border-radius: 10px;
+  font-size: 1.125rem;
+  line-height: 1;
+  font-weight: 500;
+  transition-duration: 86ms;
 }
 
 .tag.is-micro {
-    height: auto;
-    padding: 4px 4px 2px;
-    font-size: 0.5rem;
-    line-height: 1;
+  height: auto;
+  padding: 4px 4px 2px;
+  font-size: 0.5rem;
+  line-height: 1;
 }
 </style>

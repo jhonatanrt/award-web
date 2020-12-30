@@ -17,19 +17,25 @@ export default new Router({
       path: '/detalle',
       name: 'shopping',
       component: () => import('./views/Shopping.vue'),
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/reconocimiento',
       name: 'Award',
       component: () => import('./views/Award.vue'),
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/informacion',
       name: 'sobre-nosotros',
       component: () => import('./views/About.vue'),
-      // meta: {
-      //   requiresAuth: true
-      // }
+      meta: {
+        requiresAuth: true
+      }
     }
   ]
 })

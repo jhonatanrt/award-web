@@ -33,7 +33,7 @@ export default class HttpService {
 
   post() {
     const { url, headersCallback, errorCallback, successCallback, body } = this;
-    const token = localStorage.token;
+    const token = localStorage.tokens;
     const auth = (token ? `Basic ${token}` : undefined);
     const headers = {
       'Accept': 'application/json',
@@ -48,16 +48,17 @@ export default class HttpService {
       headers: headers,
       body: JSON.stringify(body),
     })
-      .then(response => {
+      .then(async (response) => {
         headersCallback && headersCallback(response.headers);
         if (response.status !== 200) {
           localStorage.removeItem('token');
           throw ('ERROR');
+        } else {
+          return response.json()
         }
-
-        return {
-          status: response.status === 200
-        }
+        // return {
+        //   status: response.status === 200
+        // }
       })
       .then(responseJson => {
         successCallback(responseJson)
@@ -70,7 +71,7 @@ export default class HttpService {
 
   put() {
     const { url, headersCallback, errorCallback, successCallback, body } = this;
-    const token = localStorage.token;
+    const token = localStorage.tokens;
     const auth = (token ? `Basic ${token}` : undefined);
     const headers = {
       'Accept': 'application/json',
@@ -108,7 +109,7 @@ export default class HttpService {
 
   get() {
     const { url, headersCallback, errorCallback, successCallback } = this;
-    const token = localStorage.getItem('token');
+    const token = localStorage.tokens;
     const auth = (token ? `Basic ${token}` : undefined);
     const headers = {
       'Accept': 'application/json,application/stream+json',

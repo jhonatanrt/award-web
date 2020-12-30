@@ -24,14 +24,6 @@
                 >
               </div>
             </div>
-            <!-- <hr class="spacer is-1-5" />
-            <a
-              class="has-tint has-text-weight-semibold"
-              href="http://www.parents-choice.org/product.cfm?product_id=35555"
-              target="_blank"
-              ><i class="icon icon-award"></i
-              ><span>Parents' Choice Approved App</span></a
-            > -->
           </div>
         </div>
         <div class="column is-6">
@@ -40,14 +32,6 @@
               role="presentation"
               src="https://getbedtimestories.com/assets/images/hero/Hero-Karlotta@1x-8bd462e8.jpg?1588602936"
             />
-            <!-- <p>
-              <small
-                ><a href="/library/karlotta-the-knight"
-                  ><u>Karlotta the Knight</u></a
-                >
-                with her squire and steed.</small
-              >
-            </p> -->
           </div>
         </div>
       </div>
@@ -71,27 +55,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-/* .hero {
-  background-image: url("https://gofreedog.weebly.com/uploads/1/2/5/2/125243281/background-images/545687750.png");
-  background-repeat: no-repeat;
-  background-color: #f8f8f8;
-  background-position: center;
-  &.is-large {
-    .banner-content {
-    }
-  }
-} */
-
-/* @media screen and (min-width: 769px) {
-  .hero {
-    &.is-large {
-      .banner-content {
-        text-align: right;
-        padding-right: 3rem;
-      }
-    }
-  }
-} */
 .section {
   &.is-hero {
     .title {
