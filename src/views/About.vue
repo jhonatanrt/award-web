@@ -452,7 +452,7 @@ export default {
   position: relative;
   border-bottom: 0.1px rgb(175, 173, 173) solid;
   padding: 50px;
-  min-height: 12rem;
+  min-height: 10rem;
   background-color: white;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 

@@ -3,9 +3,11 @@
     <div class="modal-background" @click="closeModal"></div>
     <div class="modal-content">
       <form @submit.prevent="handleSubmit" class="box">
+        <label for="" class="label">Bienvenido</label>
+        <hr>
         <div class="field">
           <label for="" class="label">DNI</label>
-          <div class="control ">
+          <div class="control">
             <input
               type="text"
               placeholder="Documento de identidad"
@@ -17,7 +19,7 @@
         </div>
         <div class="field">
           <label for="" class="label">Contraseña</label>
-          <div class="control ">
+          <div class="control">
             <input
               placeholder="Escriba su clave"
               type="password"
@@ -27,14 +29,27 @@
             />
           </div>
         </div>
-        <p class="help is-danger" v-if="isLoginError">Usuario no existe, intente nuevamente.</p>
-        <br>
+        <p class="help is-danger" v-if="isLoginError">
+          Usuario no existe, intente nuevamente.
+        </p>
+        <br />
         <div class="buttons is-right">
-          <button class="button is-success" type="submit">Iniciar sesión</button>
+          <button
+            class="button is-success"
+            type="submit"
+            v-bind:class="{ 'is-loading': isLoading }"
+            :disabled="isLoading"
+          >
+            Iniciar sesión
+          </button>
         </div>
       </form>
     </div>
-    <button class="modal-close is-large" aria-label="close" @click="closeModal"></button>
+    <button
+      class="modal-close is-large"
+      aria-label="close"
+      @click="closeModal"
+    ></button>
   </div>
 </template>
 
@@ -50,35 +65,47 @@ export default {
 
     return {
       isLoginError: false,
+      isLoading: false,
       loginForm: {
-        document: '',
-        password: ''
-      }
+        document: "",
+        password: "",
+      },
     };
   },
   computed: {},
   methods: {
     closeModal() {
-      this.$emit('setLogin', '')
+      this.$emit("setLogin", "");
     },
     handleSubmit(e) {
       this.$validator.validate().then((valid) => {
         if (valid) {
+          this.isLoading = true;
           const { document, password } = this.loginForm;
           const request = { document, password };
 
-        this.$store.dispatch('login', {document, password})
-          .then((response) => {
-            const data = CONSTANTS.ROLES.find((item) => item.code == response.profileId);
-            this.$router.push(data? data.route : '');
-          })
-          .catch(err => console.error(err))
-
-          
+          this.$store
+            .dispatch("login", { document, password })
+            .then((response) => {
+              const data = CONSTANTS.ROLES.find(
+                (item) => item.code == response.profileId
+              );
+              this.$router.push(data ? data.route : "");
+            })
+            .catch((err) => {
+              this.isLoginError = true;
+              setTimeout(() => {
+                this.isLoginError = false;
+              }, 1500);
+              console.error(err);
+            })
+            .finally(() => {
+              this.isLoading = false;
+            });
         }
       });
     },
-  }
+  },
 };
 </script>
 
