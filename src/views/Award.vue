@@ -606,7 +606,6 @@ export default {
     ModelSelect,
     AppSlideshow,
   },
-  computed: {},
   data() {
     const yearList = helpers.generateArrayOfYears();
     const monthList = helpers.generateMonths();
@@ -660,6 +659,11 @@ export default {
   created() {
     this.fecthData();
   },
+  computed: {
+    user() {
+      return this.$store.state.user;
+    },
+  },
   methods: {
     hideSlide(){
       this.showSlide = false;
@@ -669,7 +673,7 @@ export default {
         .getWorker({
           limit: 10,
           offset: 10 * (pageNumber - 1),
-          userId: 1,
+          userId: this.user.userId,
         })
         .then(({ pages, users }) => {
           this.fake = users;
@@ -695,7 +699,7 @@ export default {
     fecthData() {
       ownerServices
         .getPendingRequest({
-          userId: 2,
+          userId: this.user.userId,
           month: this.awardForm.idMonth,
           year: this.awardForm.idYear,
         })
@@ -713,7 +717,7 @@ export default {
     searchWorker() {
       ownerServices
         .getPendingRequest({
-          userId: 2,
+          userId: this.user.userId,
           month: this.awardForm.idMonth,
           year: this.awardForm.idYear,
         })
@@ -748,7 +752,7 @@ export default {
       this.loaderStatus = true;
       ownerServices
         .getFreeWorkers({
-          userId: 1,
+          userId: this.user.userId,
         })
         .then((response) => {
           this.freeList = (response || [])
@@ -899,7 +903,7 @@ export default {
             categoryId: idCategory,
             month: idMonth,
             year: idYear,
-            userId: 1,
+            userId: this.user.userId,
             usersSelected: data.map((item) => ({
               userId: item.userId,
               comentary: item.comment,

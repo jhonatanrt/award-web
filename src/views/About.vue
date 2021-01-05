@@ -351,7 +351,6 @@ export default {
     calculateAward(payload){
       let awardAmount = 0;
       for (const key in payload) {
-        // if (Object.hasOwnProperty.call(object, key)) {
           const element = payload[key];
           awardAmount += element.length;
       }
@@ -360,7 +359,7 @@ export default {
     searchAward() {
       ownerServices
         .getAwardByWorker({
-          userId: 23,
+          userId: this.user.userId,
           year: this.awardForm.idYear,
         })
         .then((response) => {

@@ -349,7 +349,11 @@ export default {
   created() {
     this.fecthData();
   },
-  computed: {},
+  computed: {
+    user() {
+      return this.$store.state.user;
+    },
+  },
   data() {
     const yearList = helpers.generateArrayOfYears();
     const monthList = helpers.generateMonths();
@@ -382,7 +386,7 @@ export default {
         .getWorker({
           limit: 10,
           offset: 10*(pageNumber - 1),
-          userId: 1,
+          userId: this.user.userId,
         })
         .then(({ pages, users }) => {
           this.fake = users;
@@ -397,7 +401,7 @@ export default {
         .getWorker({
           limit: 10,
           offset: 0,
-          userId: 1,
+          userId: this.user.userId,
         })
         .then(({ pages, users }) => {
           this.fake = users;
@@ -421,7 +425,7 @@ export default {
         .getWorker({
           limit: 10,
           offset: 0,
-          userId: 1,
+          userId: this.user.userId,
           name: this.searchText,
         })
         .then(({pages, users}) => {
@@ -479,7 +483,7 @@ export default {
             categoryId: idCategory,
             month: idMonth,
             year: idYear,
-            userId: 1,
+            userId: this.user.userId,
             usersSelected: data.map((item) => ({
               userId: item.userId,
               comentary: item.comment,
