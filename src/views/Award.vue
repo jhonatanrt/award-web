@@ -289,7 +289,7 @@
                   <br />
                   <label class="label has-button"
                     >Lista de Trabajadores
-                    <button class="button is-warning" @click="addWorker()">
+                    <button class="button is-warning" @click="addWorker(modal.data)">
                       <span class="icon is-small">
                         <font-awesome-icon icon="user-plus" />
                       </span>
@@ -748,11 +748,11 @@ export default {
         console.log(error);
       }
     },
-    addWorker() {
+    addWorker(payload) {
       this.loaderStatus = true;
       ownerServices
         .getFreeWorkers({
-          userId: this.user.userId,
+          userId: payload.awardId,
         })
         .then((response) => {
           this.freeList = (response || [])

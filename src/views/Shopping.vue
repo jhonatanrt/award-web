@@ -428,8 +428,12 @@ export default {
           userId: this.user.userId,
           name: this.searchText,
         })
-        .then(({pages, users}) => {
-          this.fake = users;
+        .then(({pages, users = []}) => {
+          this.fake = users.map((item) => {
+            const isSelected = this.selectedList.find(element => element.userId === item.userId)
+
+            return {...item, active: !!isSelected}
+          });
           this.pagesNumber = pages.totalPages;
         })
         .catch((error) => {
@@ -449,9 +453,19 @@ export default {
       }));
 
       const detailShow = this.fake.filter((item) => item.active);
-      this.selectedList = detailShow;
-      this.selectedNumber = detailShow.length;
-      this.availableButton = detailShow.length > 0;
+      const seen = new Set();
+      const selectedTemp = [...this.selectedList, ...detailShow];
+
+
+      const filteredArr = selectedTemp.filter(el => {
+        const duplicate = seen.has(el.userId);
+        seen.add(el.userId);
+        return !duplicate;
+      });
+
+      this.selectedList = filteredArr;
+      this.selectedNumber = filteredArr.length;
+      this.availableButton = filteredArr.length > 0;
     },
     hideRegisterModal() {
       this.stateRegisterModal = false;
