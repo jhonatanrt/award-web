@@ -752,7 +752,7 @@ export default {
       this.loaderStatus = true;
       ownerServices
         .getFreeWorkers({
-          userId: payload.awardId,
+          userId: payload.userCreated.userId,
         })
         .then((response) => {
           this.freeList = (response || [])
