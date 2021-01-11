@@ -173,7 +173,7 @@
               v-for="(element, index) in selectedList"
               :key="index"
             >
-              {{ element.name }} {{ element.lastName }}
+              {{index + 1}}º {{ element.name }} {{ element.lastName }}
               <button class="delete" @click="selectOption(element)"></button>
             </span>
           </a>
@@ -229,6 +229,17 @@
                           type="text"
                           placeholder="e.g. Partnership opportunity"
                           v-model="awardForm.data[index].name"
+                          disabled
+                        />
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="control">
+                        <input
+                          class="input"
+                          type="text"
+                          placeholder="e.g. Partnership opportunity"
+                          v-bind:value="`Puesto Nº ${index + 1}`"
                           disabled
                         />
                       </div>
@@ -451,10 +462,11 @@ export default {
             ? false
             : item.userId === element.userId,
       }));
-
       const detailShow = this.fake.filter((item) => item.active);
+      const listTemp = this.selectedList.filter(el => el.userId !== element.userId);
+      console.log(detailShow, listTemp)
       const seen = new Set();
-      const selectedTemp = [...this.selectedList, ...detailShow];
+      const selectedTemp = [...listTemp, ...detailShow];
 
 
       const filteredArr = selectedTemp.filter(el => {
@@ -462,6 +474,8 @@ export default {
         seen.add(el.userId);
         return !duplicate;
       });
+
+      console.log(filteredArr)
 
       this.selectedList = filteredArr;
       this.selectedNumber = filteredArr.length;
@@ -498,9 +512,10 @@ export default {
             month: idMonth,
             year: idYear,
             userId: this.user.userId,
-            usersSelected: data.map((item) => ({
+            usersSelected: data.map((item, index) => ({
               userId: item.userId,
               comentary: item.comment,
+              position: index + 1
             })),
           };
 

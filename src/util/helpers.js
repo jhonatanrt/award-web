@@ -18,7 +18,7 @@ const generateArrayOfYears = () => {
   var min = max + 10
   var years = []
 
-  for (var i = max; i <= min; i++) {
+  for (var i = max - 5; i <= min; i++) {
     years.push(i)
   }
 

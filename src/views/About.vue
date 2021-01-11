@@ -52,14 +52,17 @@
         <div class="columns">
           <div class="column is-one-third">
             <figure class="image is-128x128 column-image">
-              <!-- <img v-bind:src="user.photoUrl" /> -->
-              <img src="https://bulma.io/images/placeholders/128x128.png">
+              <img v-bind:src="user.photoUrl" />
+              <!-- <img src="https://bulma.io/images/placeholders/128x128.png"> -->
             </figure>
             <hr>
             <p class="column-info is-bold">Hola, {{user.name}} {{user.lastName}}</p>
             <p class="column-info">Número {{user.documentType}} {{user.document}}</p>
             <p class="column-info">Dirección, {{user.address}}</p>
             <p class="column-info">Cumpleaños, {{user.birthDate}}</p>
+            <p class="column-info" v-if="user.rank">Rango, {{user.rank}}</p>
+            <p class="column-info" v-if="user.admissionDate">Fecha de admisión, {{user.admissionDate}}</p>
+            <p class="column-info" v-if="user.teamName">Equipo, {{user.teamName}}</p>
             <hr>
             <p class="column-info">Cantidad de Premios:  &nbsp;<strong>{{calculateAward(awardList)}}</strong></p>
           </div>
