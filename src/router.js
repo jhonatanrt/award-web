@@ -22,6 +22,14 @@ export default new Router({
       }
     },
     {
+      path: '/editar',
+      name: 'edit',
+      component: () => import('./views/Edit.vue'),
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
       path: '/reconocimiento',
       name: 'Award',
       component: () => import('./views/Award.vue'),

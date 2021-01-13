@@ -35,6 +35,12 @@
                 >Reconocimiento</a
               >
               <a
+                href="/editar"
+                class="navbar-item"
+                v-if="user.profileId == 2"
+                >Editar</a
+              >
+              <a
                 href="/detalle"
                 class="navbar-item"
                 v-if="user.profileId == 2 || user.profileId == 1"

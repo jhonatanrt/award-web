@@ -15,6 +15,8 @@ export default {
         USER_FREE: '/award/user/',
         LIST_AWARD: '/award',
         LOGIN: '/award/user/login',
+        EDIT: '/award/request/edit',
+        PENDING_EDIT: '/award/request/pending/created',
     },
     ROLES: [
         { code: 1, type: 'MANAGER', route: 'reconocimiento' },

@@ -6,9 +6,9 @@
         <div class="container">
           <div class="columns is-vcentered">
             <div class="column is-two-thirds">
-              <h1 class="title">Solicitudes de reconocimiento</h1>
+              <h1 class="title">Editar reconocimiento</h1>
               <h2 class="subtitle">
-                Realice las aprobaciones o rechazo de las solicitudes.
+                Edite las solicitudes antes de ser aprobadas o rechazadas.
               </h2>
             </div>
           </div>
@@ -113,7 +113,6 @@
                   <th>Estado</th>
                   <th>Información</th>
                   <th>Presentación</th>
-                  <th>Acción</th>
                 </tr>
               </thead>
               <tbody v-if="fake.length > 0">
@@ -148,31 +147,6 @@
                       </button>
                     </div>
                   </td>
-                  <td>
-                    <div class="buttons" v-if="element.status === 0">
-                      <button
-                        class="button is-success"
-                        @click="showActionModal(1, element)"
-                      >
-                        Aprobar
-                      </button>
-                      <!-- <button
-                        class="button is-danger"
-                        @click="showActionModal(2, element)"
-                      >
-                        Rechazar
-                      </button> -->
-                    </div>
-                    <div class="buttons" v-if="element.status !== 0">
-                      <button
-                        class="button is-warning"
-                        title="Disabled button"
-                        disabled
-                      >
-                        Sin Acciones
-                      </button>
-                    </div>
-                  </td>
                 </tr>
               </tbody>
               <div v-if="fake.length === 0" class="table__empty">
@@ -183,45 +157,6 @@
         </div>
       </div>
     </section>
-
-    <div
-      class="modal"
-      v-bind:class="{ 'is-active': stateActionModal }"
-      v-if="stateActionModal"
-    >
-      <div class="modal-background" @click="hideActionModal()"></div>
-      <div class="modal-content">
-        <div class="box">
-          <article class="media">
-            <div class="media-content">
-              <div class="content modal--content">
-                <strong>Hola, {{ modal.userName }}</strong>
-                <p>
-                  ¿Está seguro que desea <strong>{{ modal.detail }}</strong> las
-                  solicitud?
-                </p>
-              </div>
-              <div class="buttons is-right">
-                <button
-                  class="button is-success"
-                  @click="setAction(modal.statusType, modal.data)"
-                >
-                  Aceptar
-                </button>
-                <button class="button" @click="hideActionModal()">
-                  Cancelar
-                </button>
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
-      <button
-        class="modal-close is-large"
-        aria-label="close"
-        @click="hideActionModal()"
-      ></button>
-    </div>
 
     <div
       class="modal"
@@ -289,7 +224,10 @@
                   <br />
                   <label class="label has-button"
                     >Lista de Trabajadores
-                    <button class="button is-warning" @click="addWorker(modal.data)">
+                    <button
+                      class="button is-warning"
+                      @click="addWorker(modal.data)"
+                    >
                       <span class="icon is-small">
                         <font-awesome-icon icon="user-plus" />
                       </span>
@@ -312,6 +250,29 @@
                                     placeholder="select item"
                                   >
                                   </model-select>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                              <label class="label">Posición</label>
+                            </div>
+                            <div class="field-body">
+                              <div class="field">
+                                <div class="control">
+                                  <div class="select is-fullwidth">
+                                    <select v-model="userForm.position">
+                                      <option value="1">1</option>
+                                      <option value="2">2</option>
+                                      <option value="3">3</option>
+                                      <option value="4">4</option>
+                                      <option value="5">5</option>
+                                      <option value="6">6</option>
+                                      <option value="7">7</option>
+                                      <option value="8">8</option>
+                                    </select>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -381,6 +342,29 @@
                             </div>
                             <div class="field is-horizontal">
                               <div class="field-label is-normal">
+                                <label class="label">Posición</label>
+                              </div>
+                              <div class="field-body">
+                                <div class="field">
+                                  <div class="control">
+                                    <div class="select is-fullwidth">
+                                      <select v-model="item.position">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="field is-horizontal">
+                              <div class="field-label is-normal">
                                 <label class="label">Detalle</label>
                               </div>
                               <div class="field-body">
@@ -417,7 +401,7 @@
                       class="button is-success"
                       @click="setEditAction(modal.data)"
                     >
-                      Aprobar
+                      Editar
                     </button>
                     <!-- <button
                       class="button is-danger"
@@ -582,7 +566,7 @@
         aria-label="close"
         @click="hideSlide()"
       ></button>
-      <AppSlideshow 
+      <AppSlideshow
         v-bind:data="slideInfo.data"
         v-bind:detail="slideInfo.detail"
       ></AppSlideshow>
@@ -665,7 +649,7 @@ export default {
     },
   },
   methods: {
-    hideSlide(){
+    hideSlide() {
       this.showSlide = false;
     },
     nextPage(pageNumber) {
@@ -683,22 +667,22 @@ export default {
           throw new Error(`API ${error}`);
         });
     },
-    showSlideModal(payload){
+    showSlideModal(payload) {
       this.slideInfo = {
         data: {
           title: payload.categoryName,
-          month: payload.month
+          month: payload.month,
         },
-        detail: payload.usersSelected.map(item => ({
+        detail: payload.usersSelected.map((item) => ({
           ...item.userInfo,
-          comentary: item.comentary
-        }))
-      }
+          comentary: item.comentary,
+        })),
+      };
       this.showSlide = true;
     },
     fecthData() {
       ownerServices
-        .getPendingRequest({
+        .getPendingChangedRequest({
           userId: this.user.userId,
           month: this.awardForm.idMonth,
           year: this.awardForm.idYear,
@@ -716,7 +700,7 @@ export default {
     },
     searchWorker() {
       ownerServices
-        .getPendingRequest({
+        .getPendingChangedRequest({
           userId: this.user.userId,
           month: this.awardForm.idMonth,
           year: this.awardForm.idYear,
@@ -739,6 +723,7 @@ export default {
           userId: selectedUser.userId,
           photoUrl: selectedUser.photoUrl,
           comentary: this.userForm.comentary,
+          position: this.userForm.position,
         };
 
         let dataTemp = [...this.modal.data.usersSelected];
@@ -810,18 +795,17 @@ export default {
     setEditAction(payload) {
       this.loaderStatus = true;
       ownerServices
-        .setRequestEditAction({
+        .setRequestChangedAction({
           data: [
             {
               awardId: payload.awardId,
               usersSelected: payload.usersSelected.map(
-                ({ comentary, userId }) => ({ comentary, userId })
+                ({ comentary, userId, position }) => ({ comentary, userId, position })
               ),
             },
           ],
         })
         .then((response) => {
-
           if (response) {
             this.hideInfoModal();
             this.searchWorker();
@@ -837,12 +821,12 @@ export default {
     setAction(statusType, payload) {
       this.loaderStatus = true;
       ownerServices
-        .setRequestEditAction({
+        .setRequestChangedAction({
           data: [
             {
               awardId: payload.awardId,
               usersSelected: payload.usersSelected.map(
-                ({ comentary, userId }) => ({ comentary, userId })
+                ({ comentary, userId, position }) => ({ comentary, userId, position })
               ),
             },
           ],
@@ -918,10 +902,11 @@ export default {
 </script>
 <style scoped lang="scss">
 .content-close {
-  &::before, &::after{
+  &::before,
+  &::after {
     background-color: black;
   }
-  &:hover{
+  &:hover {
     background-color: #0a0a0a17;
   }
   z-index: 900;
@@ -1019,7 +1004,7 @@ table {
 .content figure {
   margin-left: 0;
 }
-.is-hidden{
+.is-hidden {
   display: none;
 }
 </style>

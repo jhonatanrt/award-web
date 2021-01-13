@@ -56,9 +56,36 @@ const setRequestEditAction = (body) => {
     });
 }
 
+const setRequestChangedAction = (body) => {
+    return new Promise((resolve, reject) => {
+        (new HttpServices()).setUrl(`${CONSTANTS.API}${CONSTANTS.URL_APIS.EDIT}`)
+            .setBody(body.data)
+            .success(response => {
+                resolve(response);
+            })
+            .error(error => {
+                reject(error);
+            })
+            .post()
+    });
+}
+
 const getPendingRequest = (body) => {
     return new Promise((resolve, reject) => {
         (new HttpServices()).setUrl(`${CONSTANTS.API}${CONSTANTS.URL_APIS.PENDING}?userId=${body.userId}${body.month ? '&month=' + body.month : ''}${body.year ? '&year=' + body.year : ''}`)
+            .success(response => {
+                resolve(response);
+            })
+            .error(error => {
+                reject(error);
+            })
+            .get()
+    });
+}
+
+const getPendingChangedRequest = (body) => {
+    return new Promise((resolve, reject) => {
+        (new HttpServices()).setUrl(`${CONSTANTS.API}${CONSTANTS.URL_APIS.PENDING_EDIT}?userId=${body.userId}${body.month ? '&month=' + body.month : ''}${body.year ? '&year=' + body.year : ''}`)
             .success(response => {
                 resolve(response);
             })
@@ -133,5 +160,7 @@ export default {
     getFreeWorkers,
     setRequestEditAction,
     getAwardByWorker,
-    login
+    login,
+    setRequestChangedAction,
+    getPendingChangedRequest
 }
