@@ -233,7 +233,7 @@
                         />
                       </div>
                     </div>
-                    <div class="field">
+                    <!-- <div class="field">
                       <div class="control">
                         <input
                           class="input"
@@ -242,6 +242,29 @@
                           v-bind:value="`Puesto Nº ${index + 1}`"
                           disabled
                         />
+                      </div>
+                    </div> -->
+                  </div>
+                </div>
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal">
+                    <label class="label">Posición</label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field">
+                      <div class="control">
+                        <div class="select is-fullwidth">
+                          <select v-model="awardForm.data[index].position">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -485,10 +508,11 @@ export default {
       this.stateRegisterModal = false;
     },
     showRegisterModal() {
-      this.awardForm.data = this.selectedList.map((item) => ({
+      this.awardForm.data = this.selectedList.map((item, index) => ({
         name: `${item.name} ${item.lastName}`,
         comment: "",
         userId: item.userId,
+        position: (index + 1)
       }));
 
       this.stateRegisterModal = true;

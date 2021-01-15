@@ -316,6 +316,30 @@
                               </div>
                             </div>
                           </div>
+
+                          <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                              <label class="label">Posición</label>
+                            </div>
+                            <div class="field-body">
+                              <div class="field">
+                                <div class="control">
+                                  <div class="select is-fullwidth">
+                                    <select v-model="userForm.position">
+                                      <option value="1">1</option>
+                                      <option value="2">2</option>
+                                      <option value="3">3</option>
+                                      <option value="4">4</option>
+                                      <option value="5">5</option>
+                                      <option value="6">6</option>
+                                      <option value="7">7</option>
+                                      <option value="8">8</option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           <div class="field is-horizontal">
                             <div class="field-label is-normal">
                               <label class="label">Detalle</label>
@@ -377,6 +401,29 @@
                                 <figure class="image is-64x64">
                                   <img v-bind:src="item.userInfo.photoUrl" />
                                 </figure>
+                              </div>
+                            </div>
+                            <div class="field is-horizontal">
+                              <div class="field-label is-normal">
+                                <label class="label">Posición</label>
+                              </div>
+                              <div class="field-body">
+                                <div class="field">
+                                  <div class="control">
+                                    <div class="select is-fullwidth">
+                                      <select v-model="item.position">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                             <div class="field is-horizontal">
@@ -539,6 +586,29 @@
                           <figure class="image is-64x64">
                             <img v-bind:src="item.userInfo.photoUrl" />
                           </figure>
+                        </div>
+                      </div>
+                      <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                          <label class="label">Posición</label>
+                        </div>
+                        <div class="field-body">
+                          <div class="field">
+                            <div class="control">
+                              <div class="select is-fullwidth">
+                                <select v-model="item.position">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  <option value="6">6</option>
+                                  <option value="7">7</option>
+                                  <option value="8">8</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <div class="field is-horizontal">
@@ -739,6 +809,7 @@ export default {
           userId: selectedUser.userId,
           photoUrl: selectedUser.photoUrl,
           comentary: this.userForm.comentary,
+          position: this.userForm.position
         };
 
         let dataTemp = [...this.modal.data.usersSelected];
@@ -772,6 +843,7 @@ export default {
 
           this.userForm.comentary = "";
           this.userForm.value = "";
+          this.userForm.position = "";
         })
         .catch((error) => {
           throw new Error(`API ${error}`);
@@ -815,7 +887,7 @@ export default {
             {
               awardId: payload.awardId,
               usersSelected: payload.usersSelected.map(
-                ({ comentary, userId }) => ({ comentary, userId })
+                ({ comentary, userId, position }) => ({ comentary, userId, position })
               ),
             },
           ],
@@ -842,7 +914,7 @@ export default {
             {
               awardId: payload.awardId,
               usersSelected: payload.usersSelected.map(
-                ({ comentary, userId }) => ({ comentary, userId })
+                ({ comentary, userId, position }) => ({ comentary, userId, position })
               ),
             },
           ],
